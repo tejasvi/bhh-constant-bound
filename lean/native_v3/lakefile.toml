@@ -1,0 +1,47 @@
+name = "BHH"
+version = "0.1.0"
+keywords = ["math"]
+defaultTargets = ["BHH"]
+
+[leanOptions]
+pp.unicode.fun = true
+relaxedAutoImplicit = false
+autoImplicit = false
+weak.linter.style.header = false
+
+# Toolchain leanprover/lean4:v4.35.0-rc3; Mathlib at tag v4.35.0-rc3 (commit c55e6e786f49, see lake-manifest.json).
+[[require]]
+name = "mathlib"
+scope = "leanprover-community"
+rev = "v4.35.0-rc3"
+
+[[lean_lib]]
+name = "BHH"
+globs = ["BHH.+"]
+
+# Computational code (core Lean only), compiled to native code so that `native_decide` runs compiled code.
+[[lean_lib]]
+name = "BHHCert"
+precompileModules = true
+
+# The window-2 proof modules and their computational code, used by the window-3 bound.
+[[lean_lib]]
+name = "W2"
+globs = ["W2.+"]
+
+[[lean_lib]]
+name = "W2Cert"
+precompileModules = true
+
+# The window-3 proof modules, their computational code and the run of the grid (20,10,48).
+[[lean_lib]]
+name = "W3"
+globs = ["W3.+"]
+
+[[lean_lib]]
+name = "W3Cert"
+precompileModules = true
+
+[[lean_lib]]
+name = "W3Prod20"
+globs = ["W3Prod20.+"]

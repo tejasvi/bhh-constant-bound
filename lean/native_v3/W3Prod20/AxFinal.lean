@@ -1,0 +1,19 @@
+import W3Prod20.Final
+#print axioms W3Prod20.w3_bound_lit
+#print axioms W3Prod20.beta_bound
+#print axioms W3Prod20.bhh_beta_bound
+#print axioms BHH.W3.w3BoundAt_of_checks
+#print axioms BHH.W3.betaBoundV3At_of
+#print axioms BHH.W3.passSound3
+#print axioms BHH.W3.lemma1
+#print axioms BHH.W3.laplaceBound3
+#print axioms BHH.W3.discBound3
+#print axioms BHH.W3.recSound3
+#print axioms BHH.W3.tableSoundOf3
+#print axioms BHH.W3.tripleSound
+#print axioms BHH.W3.lv3Sound
+#print axioms BHH.W3.cosSinTSound
+#print axioms BHH.W3.asinTSound
+#print axioms BHH.W3.triRangeSound
+#print axioms BHH.W3.rotA3
+#print axioms BHH.W3.reflA3

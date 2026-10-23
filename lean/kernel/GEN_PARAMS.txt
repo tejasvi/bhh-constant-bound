@@ -1,0 +1,36 @@
+The kernel-only proof K3: parameters of the generated modules under BHH/KSub2 (the trees of C_3 and C_4, as in K2) and
+BHH/KSub3 (the tree of C_5). Neither is shipped; regenerate them. The decision contexts only shape the trees; nothing
+in them is trusted.
+
+C_3 and C_4 (BHH/KSub2). Leaf function LkKf (BHHCert/ShardKf.lean; soundness BHH/LeafSound/FinalKf.lean). Initial boxes
+RNK2_3 = 12 (4,096 boxes) and RNK2_4 = 9 (512 boxes); decision contexts ctxK2_3 = Flt.mkCtx 3 0.1 0.0002 1e-12 and
+ctxK2_4 = Flt.mkCtx 4 0.4 0.002 3e-10 (prefactor bits prefBitsN k; BHHCert/ShardK2.lean). Cut parameter M = 25.
+1. Cut data k3_all.txt and k4_all.txt, published with the paper's data compressed, as k3_all.txt.xz and k4_all.txt.xz
+   (sha256 in kc2/RECORDS_SHA256); decompress them into kc2/ with `xz -dk`; the sha256 of the uncompressed files are in
+   kc2/UNCOMPRESSED_SHA256. They were written by the untrusted generator BHHCert/KCutGen2.lean, which imports
+   BHHCert/TreeKGen.lean (executable `kcut2`, see lakefile_kcut2_snippet.toml): `kcut2 k a b 25` for consecutive
+   ranges [a, b) of the initial boxes, in box order.
+2. Modules: tools/gen_kcut.py, run from this directory with the two files in kc2/:
+     python3 tools/gen_kcut.py kc2/k3_all.txt 3 25 . --mod-leaves 400 --leaf LkKf --rconst RNK2_3 --nboxes 4096 --ns KSub2 --shard-import BHHCert.ShardK2 --noncomp
+     python3 tools/gen_kcut.py kc2/k4_all.txt 4 25 . --mod-leaves 400 --leaf LkKf --rconst RNK2_4 --nboxes 512 --ns KSub2 --shard-import BHHCert.ShardK2 --noncomp
+   This writes the 51,282 files listed in KSub2_SHA256SUMS (check with `sha256sum -c KSub2_SHA256SUMS`).
+
+C_5 (BHH/KSub3). Leaf function LkKt (BHHCert/ShardKt.lean: leafLB with the literal cos/sin table cosSinTabLit of
+BHHCert/TrigTabLit.lean and the untrusted candidates fastCand/fastAsin; soundness BHH/LeafSound/FinalKt.lean,
+leafSound_K5t_of from gtK_sound_five of BHH/GraphK5.lean). Initial boxes RNK3_5 = 22 (4,194,304 boxes); decision context
+ctxK3_5 = Flt.mkCtx 5 0.6 0.0005 3e-10 (prefactor bits prefBitsN 5; BHHCert/ShardK3.lean). Cut parameter M = 12.
+1. Cut data c5_all.txt, published with the paper's data compressed, as c5_all.txt.xz (sha256 in kc5/RECORDS_SHA256);
+   decompress it into kc5/ with `xz -dk`; the sha256 of the uncompressed file is in kc5/UNCOMPRESSED_SHA256. It was
+   written by the untrusted generator BHHCert/KCutGen3t.lean, which imports BHHCert/TreeKGen.lean (executable `kcut3t`,
+   see lakefile_kcut3t_snippet.toml):
+   `kcut3t a b 12` over blocks [256 j, 256 (j + 1)) of initial boxes (boxes without leaves are not printed), the outputs
+   merged by tools/canon_kc5.py (one record per box, in box order): 19,287 boxes, 17,803,721 leaves.
+2. Modules: tools/gen_kcut5.py, run from this directory with c5_all.txt in kc5/:
+     python3 tools/gen_kcut5.py kc5/c5_all.txt --out . --M 12 --comb 1500 --mod-leaves 1000 --part 1000 --no-asm
+     python3 tools/gen_kcut5.py --out . --asm-only --pieces pieces_k5.txt
+   This writes the 53,973 files listed in KSub3_SHA256SUMS (check with `sha256sum -c KSub3_SHA256SUMS`): boxes with at
+   most 1,500 leaves as one core module C/B<t>.lean (data, top tree, chunk theorems) plus a glue module G/B<t>.lean,
+   larger boxes as B<t>/{Data,S*,Box}.lean, and AsmP000..026 and Asm.lean, which sum all initial boxes.
+
+The generators write a one-line comment header naming the kernel-only track into each generated module; the hashes in
+KSub2_SHA256SUMS and KSub3_SHA256SUMS include these headers.

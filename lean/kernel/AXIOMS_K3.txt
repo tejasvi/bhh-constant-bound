@@ -1,0 +1,22 @@
+'BHH.mainBoundsK3' depends on axioms: [propext, Classical.choice, Quot.sound]
+'BHH.betaBoundK3' depends on axioms: [propext, Classical.choice, Quot.sound]
+'BHH.bhhBetaBoundK3' depends on axioms: [propext, Classical.choice, Quot.sound]
+'BHH.mainBoundsK3_of_gt5' depends on axioms: [propext, Classical.choice, Quot.sound]
+'BHH.E.gtK_sound_five' depends on axioms: [propext, Classical.choice, Quot.sound]
+'BHH.KSub3.K5.range' depends on axioms: [propext, Classical.choice, Quot.sound]
+'BHH.KSub2.K3.range' depends on axioms: [propext, Classical.choice, Quot.sound]
+'BHH.KSub2.K4.range' depends on axioms: [propext, Classical.choice, Quot.sound]
+BHH.mainBoundsK3 : BHH.MainBoundsK3
+BHH.betaBoundK3 : BHH.BetaBoundK3
+BHH.bhhBetaBoundK3 : BHH.BHHBetaBoundK3
+def BHH.MainBoundsK3 : Prop :=
+BHH.GreenFormula →
+  BHH.VertexLemmaSeg →
+    ENNReal.ofReal (117130195 / 10 ^ 10) ≤ BHH.C 3 ∧
+      ENNReal.ofReal (59365909 / 10 ^ 10) ≤ BHH.C 4 ∧ ENNReal.ofReal (139 / 10 ^ 5) ≤ BHH.C 5
+def BHH.BetaBoundK3 : Prop :=
+BHH.GreenFormula → BHH.VertexLemmaSeg → ∀ (β : ℝ), BHH.DongCaoK30 β → 6440396 / 10 ^ 7 ≤ β
+def BHH.BHHBetaBoundK3 : Prop :=
+BHH.GreenFormula →
+  BHH.VertexLemmaSeg →
+    (∀ (β : ℝ), BHH.IsBHHConstant β → BHH.DongCaoK30 β) → ∀ (β : ℝ), BHH.IsBHHConstant β → 6440396 / 10 ^ 7 ≤ β

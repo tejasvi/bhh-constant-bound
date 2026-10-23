@@ -1,0 +1,5 @@
+# The executable for the untrusted cut generator BHHCert/KCutGen3t.lean (not part of lakefile.toml; append it there to
+# rerun the generator: `lake exe kcut3t a b M`).
+[[lean_exe]]
+name = "kcut3t"
+root = "BHHCert.KCutGen3t"
