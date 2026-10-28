@@ -1,0 +1,686 @@
+\documentclass[11pt]{amsart}
+\pdfsuppressptexinfo=-1
+\usepackage[margin=1.1in]{geometry}
+\usepackage{amsmath,amssymb,amsthm,mathtools}
+\usepackage{booktabs,enumitem,array}
+\usepackage{xcolor}
+\usepackage[hidelinks]{hyperref}
+
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{corollary}[theorem]{Corollary}
+\theoremstyle{definition}
+\newtheorem{definition}[theorem]{Definition}
+\theoremstyle{remark}
+\newtheorem{remark}[theorem]{Remark}
+\numberwithin{equation}{section}
+\setlength{\emergencystretch}{2em}
+\raggedbottom
+
+\DeclareUnicodeCharacter{2200}{\ensuremath{\forall}}
+\DeclareUnicodeCharacter{2115}{\ensuremath{\mathbb{N}}}
+\DeclareUnicodeCharacter{211D}{\ensuremath{\mathbb{R}}}
+\DeclareUnicodeCharacter{2192}{\ensuremath{\to}}
+\DeclareUnicodeCharacter{2260}{\ensuremath{\neq}}
+\DeclareUnicodeCharacter{2264}{\ensuremath{\le}}
+\DeclareUnicodeCharacter{2265}{\ensuremath{\ge}}
+\DeclareUnicodeCharacter{2208}{\ensuremath{\in}}
+\DeclareUnicodeCharacter{2227}{\ensuremath{\wedge}}
+\DeclareUnicodeCharacter{2211}{\ensuremath{\sum}}
+\DeclareUnicodeCharacter{221E}{\ensuremath{\infty}}
+\DeclareUnicodeCharacter{03B2}{\ensuremath{\beta}}
+\newcommand{\lean}[1]{\texttt{\detokenize{#1}}}
+
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\E}{\mathbb{E}}
+\newcommand{\area}{\operatorname{area}}
+\newcommand{\vol}{\operatorname{vol}}
+\newcommand{\gmin}{g_{\min}}
+\newcommand{\gmax}{g_{\max}}
+\newcommand{\CThree}{0.0117130195}
+\newcommand{\CFour}{0.0063707166}
+\newcommand{\CFive}{0.0035280362}
+\newcommand{\SumFive}{0.6466117723}
+\newcommand{\LevelZero}{0.0010814417}
+\newcommand{\WindowThree}{0.0042404631}%
+\newcommand{\KmaxW}{22}
+\newcommand{\WNone}{60}\newcommand{\WNtwo}{30}\newcommand{\WNt}{144}%
+\newcommand{\Wsecond}{0.0039557308}\newcommand{\Wsecondgrid}{(40,20,96)}\newcommand{\Wsecondmain}{0.0039174952}%
+\newcommand{\Wind}{0.0032023178}\newcommand{\Windgrid}{(20,10,48)}\newcommand{\Windmain}{0.0030379534}%
+\newcommand{\WCsix}{0.0017057370}\newcommand{\WPctSix}{65}%
+\newcommand{\WindowTwo}{0.0026853042}%
+\newcommand{\NLeanAuxThree}{5{,}667}%
+\newcommand{\NLeanShardsFiveR}{4{,}457}%
+\newcommand{\LeanWbound}{0.6496497227}%
+\newcommand{\LeanWThree}{0.0030379504113}%
+\newcommand{\NLeanAuxW}{5{,}671}%
+\newcommand{\LeanNbound}{0.6491725104}%
+\newcommand{\LeanCFive}{0.0034034701}%
+\newcommand{\LeanKbound}{0.6440396}%
+\newcommand{\LeanKCFour}{0.0059365909}%
+\newcommand{\LeanKCFive}{0.00139}%
+\newcommand{\NLeanAux}{5{,}536}%
+\newcommand{\NLeanShards}{5{,}520}%
+\newcommand{\NKGen}{105{,}255}%
+\newcommand{\NKChunks}{3{,}033{,}594}%
+\newcommand{\NKTop}{21{,}879}%
+\newcommand{\LEANVERSION}{v4.35.0-rc3}
+\newcommand{\MATHLIBCOMMIT}{c55e6e786f49}
+\newcommand{\LBMAIN}{0.6508}
+\newcommand{\SumBound}{0.6508522354}%
+\newcommand{\Kmax}{\KmaxW}
+\newcommand{\LargeSum}{\WindowThree}
+\newcommand{\WThree}{$0.1$; $2\cdot10^{-4}$}
+\newcommand{\WFour}{$0.4$; $5\cdot10^{-4}$}
+\newcommand{\WFive}{$0.6$; $2.5\cdot10^{-4}$}
+\newcommand{\EpsThree}{$10^{-12}$; $4{,}096$}
+\newcommand{\EpsFour}{$10^{-13}$; $262{,}144$}
+\newcommand{\EpsFive}{$10^{-13}$; $4{,}194{,}304$}
+\newcommand{\RangesThree}{$1$}
+\newcommand{\RangesFour}{$16$}
+\newcommand{\RangesFive}{$256$}
+\newcommand{\LeavesThree}{$12{,}835{,}507$}
+\newcommand{\LeavesFour}{$1{,}992{,}539{,}492$}
+\newcommand{\LeavesFive}{$19{,}964{,}335{,}746$}
+\newcommand{\EvalThree}{$11{,}563{,}336$}
+\newcommand{\EvalFour}{$1{,}751{,}885{,}102$}
+\newcommand{\EvalFive}{$14{,}286{,}968{,}737$}
+\newcommand{\CoinThree}{$3{,}786$}
+\newcommand{\CoinFour}{$17{,}657{,}522$}
+\newcommand{\CoinFive}{$468{,}368{,}060$}
+\newcommand{\FltThree}{$0.011713020$}
+\newcommand{\FltFour}{$0.006370717$}
+\newcommand{\FltFive}{$0.003528036$}
+\newcommand{\TimeThree}{$5$\,s}
+\newcommand{\TimeFour}{$1{,}115$\,s}
+\newcommand{\TimeFive}{$58{,}050$\,s}
+\newcommand{\PctThree}{99.9}
+\newcommand{\PctFour}{99.4}
+\newcommand{\PctFive}{90.3}
+\newcommand{\MCThree}{0.0117147}
+\newcommand{\MCFour}{0.0064059}
+\newcommand{\MCFive}{0.0039065}
+\newcommand{\MCSix}{0.0026084}
+\newcommand{\ZENODODOI}{10.5281/zenodo.23716095}%
+\newcommand{\REPOURL}{https://github.com/tejasvi/bhh-constant-bound-v8/tree/v9}
+\hypersetup{pdftitle={Lower bounds for the Beardwood-Halton-Hammersley constant},
+  pdfauthor={Tejasvi Singh Tomar}}
+
+\usepackage{placeins}
+\begin{document}
+
+\title[The Beardwood--Halton--Hammersley constant]{Lower bounds for the Beardwood--Halton--Hammersley constant}
+\author{Tejasvi Singh Tomar}
+\renewcommand{\urladdrname}{{\itshape ORCID}}
+\urladdr{\href{https://orcid.org/0000-0003-4668-3639}{https://orcid.org/0000-0003-4668-3639}}
+\subjclass[2020]{60D05, 90C27; 52A22, 65G40}
+\keywords{Euclidean traveling salesman problem, Beardwood--Halton--Hammersley theorem, random geometric graph, union of disks, interval arithmetic, computer-assisted proof, formal verification}
+
+\begin{abstract}
+Let $\beta$ be the Beardwood--Halton--Hammersley constant: the shortest tour through $n$ independent uniform random points in the unit square has length asymptotic to $\beta\sqrt n$ almost surely. Dong and Cao proved $\beta\ge0.6421$ from an inequality $\beta\ge5/8+\sum_{k=3}^{K}C_k$, where $C_k$ is an integral over configurations of $k$ points in the plane that form a connected graph when points at distance at most $1$ are joined. For $C_3$, $C_4$ and $C_5$, sharper bounds come from a first-order expansion of the area of the union of the unit disks on boxes of configurations. For $C_6+\dots+C_{\Kmax}$, which Dong and Cao did not use, a lower bound comes from comparing each point only with the three points before it in the order of their first coordinates. We obtain $\beta\ge0.6496$, and $\beta\ge\LBMAIN$ if the exponential function of the C library used to evaluate the bound for $C_6+\dots+C_{\Kmax}$ has a relative error below $10^{-9}$. The proofs are computer-assisted; the bound $0.6496$ is proved in Lean~4, with finite checks evaluated by compiled code, from the inequality of Dong and Cao and two statements about unions of disks that we prove but do not formalize.
+\end{abstract}
+
+\maketitle
+
+\section{Introduction}\label{sec:intro}
+
+Let $X_1,X_2,\dots$ be independent uniform random points in $[0,1]^2$, and let $L_n$ be the length of the shortest closed tour through $X_1,\dots,X_n$. Beardwood, Halton and Hammersley \cite{BHH59} proved that $L_n/\sqrt n$ converges almost surely to a constant $\beta$. The value of $\beta$ is not known, although numerical experiments suggest that it is about $0.71$ \cite{JMR96,Coo12}; it is listed in the repository of optimization constants \cite{Tao26}.
+
+Every point of a tour is joined to two other points, so it contributes at least half the sum of the distances to its two nearest neighbours. Beardwood, Halton and Hammersley used this to prove $\beta\ge5/8$ \cite{BHH59} (see also \cite[Section~3.1]{Ste15}). Steinerberger \cite{Ste15} refined their argument and claimed $\beta\ge5/8+19/5184$, but Gaudio and Jaillet \cite{GJ20} found an error in this argument, corrected the bound to $\beta\ge5/8+19/10368>0.6268$ and tightened the corrected argument to $\beta\ge0.6277$. Dong and Cao \cite{DC26} proved $\beta\ge0.6421$. With importance sampling they also obtained $\beta\ge0.6536$ with probability at least $1-10^{-4}$ over the randomness of the sampling; this is not a deterministic bound. Dong and Cao also proved $\beta\le0.8810$ \cite{DC26}.
+
+The bound of Dong and Cao has the form $\beta\ge5/8+\sum_{k=3}^{K}C_k$ for every $K\ge3$ (Theorem~\ref{thm:dc}). The number $C_k$ is the contribution to this bound of the connected components with $k$ points of the graph that joins two points of a Poisson process when their distance is at most $r$ (a random geometric graph), integrated over~$r$. After the integration over $r$, it is $\Gamma(k-\frac12)/(2\cdot k!)$ times the integral of $g(G)A^{-(k-1/2)}$ over the configurations $y=(y_1,\dots,y_k)$ of points in the plane with $y_1=0$, with respect to $dy_2\cdots dy_k$. Here $G$ is the graph on $y_1,\dots,y_k$ that joins two points at distance at most~$1$, and $A$ is the area of the union of the disks of radius~$1$ centred at the points, the region in which a further point would be joined to one of them. The weight $g(G)$ is $0$ if $G$ is disconnected; otherwise $0\le g(G)\le p(G)-n_1/2$, where $p(G)$ is the least number of vertex-disjoint paths that cover the vertices of $G$ and $n_1$ is the number of its vertices of degree~$1$, and $g(G)=p(G)-n_1/2$ if $G$ is connected and has at most six vertices. Section~\ref{sec:integrals} defines $g$ for all graphs. Dong and Cao bound $C_3$, $C_4$ and $C_5$ from below. They cover a bounded part of the space of configurations with boxes of side $1/1600$, $1/50$ and $1/10$, respectively, and on each box they bound $g$ from below by its minimum and $A$ from above by a bound built from a spanning tree. Their values are $C_3\ge0.011135$, $C_4\ge0.005040$ and $C_5\ge0.001015$ \cite[Section~3.3]{DC26}, and their bound $0.6421$ uses no term with $k\ge6$. Monte Carlo estimates give $C_3\approx\MCThree$, $C_4\approx\MCFour$ and $C_5\approx\MCFive$, with standard errors in Section~\ref{sec:limits}, so, measured against these estimates, the bounds of Dong and Cao leave most room in $C_4$ and $C_5$.
+
+\begin{theorem}\label{thm:main}
+\leavevmode
+\begin{enumerate}[label=\textup{(\alph*)},leftmargin=*]
+\item We have $C_3\ge\CThree$, $C_4\ge\CFour$ and $C_5\ge\CFive$.
+\item We have $\sum_{k=6}^{\Kmax}C_k\ge\LeanWThree$, and consequently $\beta\ge\LeanWbound$.
+\item If the exponential function of the C library glibc~2.41 has a relative error below $10^{-9}$, then $\sum_{k=6}^{\Kmax}C_k\ge\LargeSum$, and consequently
+\[
+\beta\ge\frac58+\sum_{k=3}^{\Kmax}C_k\ge\SumBound>\LBMAIN.
+\]
+\end{enumerate}
+\end{theorem}
+
+Part~(b) rests on a Lean~4 proof that evaluates the bound of Section~\ref{sec:large} on a coarser grid in fixed-point interval arithmetic (Section~\ref{sec:lean}). The assumption in~(c) enters only through the floating-point recursion that evaluates this bound on the finer grid (Section~\ref{sec:weval}).
+
+\subsection*{The method}
+Following Dong and Cao, we use rotations about $y_1=0$, the reflection in the first axis and the order of the first coordinates of $y_3,\dots,y_k$ to write $C_k$ as an integral with the weight $|y_2|$ over a box in $\R^{2k-3}$, restricted to a set $D_k$ (Lemma~\ref{lem:domain}), and we subdivide the box adaptively. The new part is the bound on a single box $Q$ with centre $c$. For configurations $y$ in $Q$ we bound $A(y)$ from above by $A(c)+\nabla A(c)\cdot(y-c)+\varrho$, where the remainder $\varrho\ge0$ depends on $Q$ and on $y-c$ (Lemma~\ref{lem:vertex}). The gradient of $A$ is an integral over the exposed arcs of the circles, and its variation along a segment comes from the motion of the endpoints of these arcs, which are the vertices of the union. For each vertex that is not shown to stay inside a third disk along the segments from $c$, the remainder adds a bound for the angle swept by the vertex, multiplied by the sum of the distances moved by the two disk centres whose circles meet there. Since $t\mapsto t^{-(k-1/2)}$ is decreasing and convex, Jensen's inequality turns this into a lower bound for the uniform average over $Q$ of the integrand, including the weight $|y_2|$; this bound loses only the average of $\varrho$ and explicit terms of second order in the widths of $Q$ (Proposition~\ref{prop:interior}). On boxes where some edges of the graph are undetermined, the bound uses the minimum of $g$ plus the excess of $g$ on events, with lower bounds for their probabilities under the uniform distribution on the box (Proposition~\ref{prop:boundary}). Boxes that cross the boundary of $D_k$, and boxes in which two points can coincide, receive cruder bounds (Propositions~\ref{prop:straddle} and~\ref{prop:coincident}). A box is split while the estimated loss of its bound exceeds a threshold.
+
+For $6\le k\le\Kmax$ we order the points by their first coordinates. The edges of the graph between points that are at most three places apart in this order form a subgraph on all $k$ points, and if it is connected, then $g\ge1-\frac12n_{<2}$, where $n_{<2}$ is the number of vertices of degree less than $2$ in this subgraph (Lemma~\ref{lem:ghat}). A pass over the points that keeps only the last three points and a finite state computes this bound (Lemma~\ref{lem:enc}). The area $A$ is at most $\pi$ plus, for each further disk, the area that it adds to the union of the at most three disks before it in this order. Both bounds depend only on the differences of consecutive points, and after a Laplace transform in $A$ the integral becomes an iterated integral of kernels in up to three consecutive differences (Section~\ref{sec:large}).
+
+
+\subsection*{Verification}
+The bounds for $C_3$, $C_4$ and $C_5$ are computed in ball arithmetic (Section~\ref{sec:checker}). One program computes the bound for $C_6+\dots+C_{\Kmax}$ in~(c) from tables in ball arithmetic and a recursion in floating point with an explicit error bound; two separately written programs, run at coarser grids, give lower bounds at least as large as this program at the same grids; this comparison checks the program but does not replace it (Section~\ref{sec:weval}). The Lean proof of~(b) also proves~(a); its finite checks are evaluated by compiled code. Another Lean proof gives the weaker bound $\beta\ge\LeanKbound$ with all checks evaluated by Lean's kernel. The Lean proofs assume Green's formula for the area of a union of disks and the estimate of Lemma~\ref{lem:vertex} along segments, which Section~\ref{sec:box} proves but which are not formalized, and the proofs for $\beta$ also assume the inequality of Theorem~\ref{thm:dc} (Section~\ref{sec:leanstat}).
+
+
+\section{The integrals \texorpdfstring{$C_k$}{C\_k}}\label{sec:integrals}
+
+For $a,b\in\R^2$ we write $|a|$ for the Euclidean norm and $B(a,\rho)$ for the closed disk with centre $a$ and radius $\rho$. For $t\in\R$ let $u(t)=(\cos t,\sin t)$. For a finite graph $G$ let $n_1(G)$ be the number of vertices of degree~$1$, let $p(G)$ be the least number of vertex-disjoint paths that cover the vertices of $G$, where a single vertex counts as a path, and let $\operatorname{cc}(G)$ be the number of connected components, with $\operatorname{cc}(G)=0$ for the empty graph. For $S\subseteq V(G)$ let $G-S$ be the subgraph induced by $V(G)\setminus S$. For a connected graph $G$, Dong and Cao \cite[Definition~5]{DC26} put
+\[
+D(G)=\frac12\sum_{v}(2-d_G(v))_+,\qquad q(G)=\max\Bigl\{1,\Bigl\lceil\frac{n_1(G)}2\Bigr\rceil,\max_{S\subseteq V(G)}\bigl(\operatorname{cc}(G-S)-|S|\bigr)\Bigr\},
+\]
+where $d_G(v)$ is the degree of $v$, and $g(G)=q(G)-D(G)$. For a disconnected graph they put $g(G)=0$. They prove $p(G)\ge q(G)\ge D(G)$ \cite[Lemma~3]{DC26}, so $0\le g(G)\le p(G)-D(G)$. If $G$ is connected and has at least two vertices, then $D(G)=n_1(G)/2$. An enumeration of all graphs on three to six labelled vertices shows that $p(G)=q(G)$ for every connected graph $G$ with at most six vertices (for one or two vertices $p=q=1$). Hence $g(G)=p(G)-n_1(G)/2$ for connected graphs with between two and six vertices, and this is the form in which our programs evaluate $g$. (The proof of \cite[Theorem~3]{DC26} uses only $0\le g\le p-D$ and $g=0$ on disconnected graphs, so Theorem~\ref{thm:dc} below also holds with $g$ replaced by $p-D$.)
+
+For $k\ge3$ and $y=(y_1,\dots,y_k)\in(\R^2)^k$ let $G_1(y)$ be the graph on $\{1,\dots,k\}$ with an edge $ij$ whenever $|y_i-y_j|\le1$, and let
+\[
+A(y)=\area\Bigl(\bigcup_{i=1}^kB(y_i,1)\Bigr).
+\]
+
+\begin{theorem}[Dong and Cao {\cite[Theorem~3]{DC26}}]\label{thm:dc}
+For every integer $K\ge3$,
+\[
+\beta\ge\frac58+\sum_{k=3}^KC_k,\qquad C_k=\frac{\Gamma(k-\frac12)}{2\,k!}\int_{(\R^2)^{k-1}}\frac{g(G_1(y))}{A(y)^{k-1/2}}\,dy_2\cdots dy_k,
+\]
+where $y_1=0$ in the integral.
+\end{theorem}
+
+Hence lower bounds for $C_3$, $C_4$ and $C_5$ give a lower bound for $\beta$, with $K=5$.
+
+We now reduce the domain of integration. Write $s=k-\frac12$ and $\varphi(t)=t^{-s}$ for $t>0$. Following Dong and Cao \cite[Section~3.3]{DC26}, we put $y_2=(r_2,0)$ and $y_j=(\xi_j,\eta_j)$ for $3\le j\le k$, and we collect the coordinates in
+\[
+x=(r_2,\xi_3,\eta_3,\dots,\xi_k,\eta_k)\in\R^{2k-3}.
+\]
+Let $D_k$ be the set of $x$ with $r_2\ge0$, $\eta_3\ge0$ and $\xi_3\le\xi_4\le\dots\le\xi_k$, and let $X_k$ be the box of the $x$ with $r_2\in[0,k-2]$, $\eta_3\in[0,k-2]$ and all other coordinates in $[-(k-2),k-2]$. Put
+\[
+\kappa_k=\frac{2\pi\,\Gamma(k-\frac12)\,(k-2)!}{k!}.
+\]
+
+\begin{lemma}\label{lem:domain}
+For $k\ge3$,
+\[
+C_k=\kappa_k\int_{D_k\cap X_k}r_2\,g(G_1(y))\,\varphi(A(y))\,dx.
+\]
+\end{lemma}
+
+\begin{proof}
+Dong and Cao \cite[Section~3.3]{DC26} write $y_2$ in polar coordinates, use the invariance of the integrand under rotations about $y_1=0$ and under the reflection in the first axis, and obtain
+\[
+C_k=\frac{2\pi\,\Gamma(k-\frac12)}{k!}\int_{\{r_2\ge0,\ \eta_3\ge0\}}r_2\,g(G_1(y))\,\varphi(A(y))\,dx.
+\]
+We undo the reflection, which gives the same integral over $\{r_2\ge0\}$ with the factor $\pi\Gamma(k-\frac12)/k!$. The integrand is symmetric in $y_3,\dots,y_k$, and the set where two of the $\xi_j$ coincide has measure zero; hence the integral over $\{r_2\ge0\}$ is $(k-2)!$ times the integral over the set where in addition $\xi_3\le\dots\le\xi_k$. The reflection in the first axis fixes $y_1$, $y_2$ and every $\xi_j$, maps $\eta_3$ to $-\eta_3$ and preserves the integrand, so this integral is twice the integral over $D_k$. Finally, Dong and Cao show that $g(G_1(y))>0$ implies $|y_j|\le k-2$ for all $j$ \cite[Section~3.3]{DC26}: in a connected graph with $k$ vertices in which some vertex is at graph distance $k-1$ from $y_1$, a shortest path to that vertex contains all $k$ vertices and any further edge would shorten it. Therefore $G_1(y)$ is a path and $g=0$. Hence every $y_j$ is joined to $y_1$ by at most $k-2$ edges of length at most $1$. Points of $D_k$ with $|y_j|\le k-2$ for all $j$ lie in $X_k$.
+\end{proof}
+
+\section{Bounds on a box}\label{sec:box}
+
+\subsection{Notation}
+A \emph{box} is a set $Q=\prod_{d=0}^{2k-4}[a_d,a_d+h_d]\subseteq X_k$ in the coordinates $x$, where $d=0$ stands for $r_2$. Its widths are $h_d>0$, its volume is $v=\prod_dh_d$, and its centre $c$ is the configuration with coordinates $a_d+h_d/2$. For $x\in Q$, the point $y_1$ is $0$, the point $y_2$ ranges over the segment $[a_0,a_0+h_0]\times\{0\}$, and $y_j$ ranges over a rectangle $R_j$ for $j\ge3$. We put $R_1=\{0\}$ and $R_2=[a_0,a_0+h_0]\times\{0\}$, write $c_j$ for the centre of $R_j$, $\delta_j=y_j-c_j$ for the displacement and $\varepsilon_j=\max_Q|\delta_j|$ for half the diagonal of $R_j$.
+
+For $i<j$ let $d^-_{ij}$ and $d^+_{ij}$ be the least and the largest distance between a point of $R_i$ and a point of $R_j$. The edge $ij$ is \emph{present} on $Q$ if $d^+_{ij}\le1$, \emph{absent} if $d^-_{ij}>1$, and \emph{undetermined} otherwise. Let $\gmin(Q)$ and $\gmax(Q)$ be the least and the largest value of $g$ over the graphs that contain the present edges and no absent edge ($\gmin(Q)$ is the quantity $\underline g(\mathcal Q)$ of \cite[Section~3.3]{DC26}). Then $\gmin(Q)\le g(G_1(y))\le\gmax(Q)$ for $x\in Q$.
+
+We write $\E$ for the average over $x$ uniform in $Q$. Under this measure the coordinates are independent and uniform, and $\E\delta_j=0$.
+
+\subsection{The union area and its gradient}
+Let $y$ be a configuration with distinct points. For each $i$ let $E_i(y)$ be the set of $t\in\R/2\pi\mathbb Z$ such that $y_i+u(t)$ lies in no open disk $B^\circ(y_j,1)$ with $j\ne i$. The boundary of the union of the disks consists of the arcs $y_i+u(E_i)$, and Green's theorem gives
+\begin{equation}\label{eq:green}
+A(y)=\frac12\sum_{i=1}^k\int_{E_i(y)}\bigl(1+\langle y_i,u(t)\rangle\bigr)\,dt.
+\end{equation}
+Moving the disk $B(y_i,1)$ with velocity $w$ changes the area of the union at the rate $\int_{E_i}\langle w,u(t)\rangle\,dt$, the integral of the normal velocity over the exposed boundary of the moving disk. The right-hand side of \eqref{eq:grad} below depends continuously on $y$, since the endpoints of the arcs move continuously and arcs appear or vanish only with length zero. Hence $A$ is continuously differentiable on configurations with distinct points, and
+\begin{equation}\label{eq:grad}
+\nabla_{y_i}A(y)=\int_{E_i(y)}u(t)\,dt.
+\end{equation}
+For a pair $i\ne j$ with $0<|y_i-y_j|<2$ the circles $\partial B(y_i,1)$ and $\partial B(y_j,1)$ meet in two points. Seen from $y_i$ they lie in the directions $\theta_{ij}^\pm=\psi_{ij}\pm\alpha_{ij}$, where $\psi_{ij}$ is the direction of $y_j-y_i$ and $\alpha_{ij}=\arccos(|y_i-y_j|/2)$. The endpoints of the arcs that form $E_i(y)$ are such directions. We call these intersection points the \emph{vertices} of the pair $ij$.
+
+\subsection{The vertex remainder}\label{sec:vertex}
+For a box $Q$, a pair $i<j$ with $d^-_{ij}<2$ and $w\ge0$, put
+\begin{equation}\label{eq:T}
+T_{ij}(w)=\lambda_{ij}w+\mu_{ij}+\min\Bigl(\frac{w}{d^-_{ij}},\pi\Bigr),
+\end{equation}
+where $(\lambda_{ij},\mu_{ij})=\bigl(1/\sqrt{4-(d^+_{ij})^2},\,0\bigr)$ if $d^+_{ij}<2$, and $(\lambda_{ij},\mu_{ij})=\bigl(0,\,2\arcsin(\min(d^+_{ij},2)/2)-2\arcsin(d^-_{ij}/2)\bigr)$ otherwise. (The second choice is also allowed when $d^+_{ij}<2$. Our programs use the first one when $d^+_{ij}<1.98$.) A vertex of the pair $ij$ is \emph{covered} on $Q$ if it exists at $c$ and, along every segment from $c$ to a configuration of $Q$, it lies in the interior of some disk $B(y_l,1)$ with $l\notin\{i,j\}$ at all times at which it exists. Let $\nu_{ij}\in\{0,1,2\}$ be an upper bound for the number of vertices of the pair $ij$ that are not covered on $Q$ (Remark~\ref{rem:prune}).
+
+\begin{lemma}\label{lem:vertex}
+Let $Q$ be a box with $d^-_{ij}>0$ for all $i<j$. Then for every $x\in Q$,
+\[
+\bigl|A(y)-A(c)-\langle\nabla A(c),y-c\rangle\bigr|\le\varrho(\delta)\coloneqq\sum_{i<j,\ d^-_{ij}<2}\nu_{ij}\,\bigl(|\delta_i|+|\delta_j|\bigr)\,T_{ij}\bigl(|\delta_j-\delta_i|\bigr).
+\]
+Here $\langle\nabla A(c),y-c\rangle=\sum_i\langle\nabla_{y_i}A(c),\delta_i\rangle$.
+\end{lemma}
+
+\begin{proof}
+Let $y(t)=c+t(y-c)$ for $t\in[0,1]$, so that $y_i(t)=c_i+t\delta_i$, and let $f(t)=A(y(t))$. All configurations $y(t)$ lie in $Q$, so their points are distinct. By \eqref{eq:grad}, $f'(t)=\sum_i\langle\delta_i,\gamma_i(t)\rangle$ with $\gamma_i(t)=\int_{E_i(y(t))}u$. Since $f(1)-f(0)-f'(0)=\int_0^1(f'(t)-f'(0))\,dt$ and $|u|=1$,
+\[
+|f(1)-f(0)-f'(0)|\le\sup_{t\in[0,1]}\sum_i|\delta_i|\,\bigl|E_i(y(t))\,\triangle\,E_i(y(0))\bigr|,
+\]
+where $|\cdot|$ is the length of a subset of the circle. The set $E_i$ is the complement of the union of the closed arcs $\{t:|t-\psi_{ij}|\le\alpha_{ij}\}$ over the $j$ with $|y_i-y_j|<2$, up to finitely many points. Along the path these arcs move continuously, an arc appears or vanishes only with length zero at a tangency, and moving an endpoint that lies in the interior of another arc does not change the union. A covered vertex lies in the interior of another arc whenever it exists. Hence, if a direction lies in exactly one of $E_i(y(t))$ and $E_i(y(0))$, then at some time in $[0,t]$ an endpoint of an arc passes through it while lying in no open arc of another disk. Up to finitely many tangency directions, this endpoint is the direction $\theta^\pm_{ij}$ of a vertex that is not covered. The symmetric difference therefore lies, up to a null set, in the union of the ranges of these directions, and its length is at most the sum of their total variations over the times at which the vertices exist.
+
+We bound this total variation. Write $z=c_j-c_i$ and $w=\delta_j-\delta_i$, so that $y_j(t)-y_i(t)=z+tw$ has length $\ell(t)\ge d^-_{ij}>0$. Let $e(t)$ be its direction as a unit vector and $e^\perp(t)$ the rotation of $e(t)$ by $\pi/2$. Then $\psi'_{ij}=\langle e^\perp,w\rangle/\ell$ and $\ell'=\langle e,w\rangle$, and from $\cos\alpha_{ij}=\ell/2$ we get $\alpha'_{ij}=-\ell'/\sqrt{4-\ell^2}$ where $\ell<2$. So
+\[
+\bigl|(\theta^\pm_{ij})'\bigr|\le\frac{|\langle e^\perp,w\rangle|}{\ell}+\frac{|\ell'|}{\sqrt{4-\ell^2}}.
+\]
+The first term integrates to the total variation of the direction of the vector $z+tw$, which moves on a line that avoids the origin, so its integral is less than $\pi$. It is also at most $|w|/d^-_{ij}$ pointwise. The second term is the absolute value of the derivative of $\arcsin(\ell/2)$. The function $\ell$ is convex, hence first decreasing and then increasing, and its values on the times where the vertex exists lie in $[d^-_{ij},\min(d^+_{ij},2)]$. So the integral of the second term is at most $2\arcsin(\min(d^+_{ij},2)/2)-2\arcsin(d^-_{ij}/2)$. If $d^+_{ij}<2$, the second term is also at most $|w|/\sqrt{4-(d^+_{ij})^2}$ pointwise. In both cases the total variation of $\theta^\pm_{ij}$ is at most $T_{ij}(|w|)$. The direction of the same vertex seen from $y_j$ is $\psi_{ij}+\pi\mp\alpha_{ij}$, which satisfies the same bound. Every vertex that is not covered therefore contributes at most $(|\delta_i|+|\delta_j|)\,T_{ij}(|w|)$, there are at most $\nu_{ij}$ of them for the pair $ij$, and the lemma follows.
+\end{proof}
+
+\begin{remark}\label{rem:prune}
+The programs treat a vertex of the pair $ij$ as covered only if it exists at the centre and $|P-c_l|+\varepsilon_i+T_{ij}(\varepsilon_i+\varepsilon_j)+\varepsilon_l<1$ for some $l\notin\{i,j\}$, where $P$ is the vertex at the centre. Along the segment from $c$ to any configuration of $Q$ the vertex exists on an interval containing $0$, because $\ell$ is convex, and on this interval it moves by at most $\varepsilon_i+T_{ij}(\varepsilon_i+\varepsilon_j)$ while $y_l$ moves by at most $\varepsilon_l$. Hence the vertex is covered.
+\end{remark}
+
+Since $|\delta_j-\delta_i|\le|\delta_i|+|\delta_j|$ and $T_{ij}$ is increasing, $\varrho(\delta)\le\sum\nu_{ij}\chi_{ij}T_{ij}(\chi_{ij})$ with $\chi_{ij}=|\delta_i|+|\delta_j|$. In particular
+\begin{equation}\label{eq:Rmax}
+\varrho(\delta)\le R_{\max}\coloneqq\sum_{i<j,\ d^-_{ij}<2}\nu_{ij}\,(\varepsilon_i+\varepsilon_j)\,T_{ij}(\varepsilon_i+\varepsilon_j)
+\end{equation}
+on $Q$. For the averages we use the moments of $|\delta_j|$. If $R_j$ has half-sides $\sigma$ and $\sigma'$, then $\E|\delta_j|^2=(\sigma^2+\sigma'^2)/3$, $\E|\delta_j|\le(\E|\delta_j|^2)^{1/2}$ and $\E|\delta_j|^4=\sigma^4/5+2\sigma^2\sigma'^2/9+\sigma'^4/5$. Different points are independent, and $(a+b)^4\le8(a^4+b^4)$. This bounds $\E \chi_{ij}$, $\E \chi_{ij}^2$ and $\E \chi_{ij}^4$.
+
+\begin{lemma}\label{lem:moments}
+Let $Q$ be as in Lemma~\textup{\ref{lem:vertex}}. With the sums over the pairs with $d^-_{ij}<2$,
+\[
+\E\varrho\le\sum\nu_{ij}\Bigl(\lambda_{ij}\E \chi_{ij}^2+\mu_{ij}\E \chi_{ij}+\min\bigl(\E \chi_{ij}^2/d^-_{ij},\,\pi\E \chi_{ij}\bigr)\Bigr),
+\]
+\[
+\bigl(\E\varrho^2\bigr)^{1/2}\le\sum\nu_{ij}\Bigl(3\lambda_{ij}^2\E \chi_{ij}^4+3\mu_{ij}^2\E \chi_{ij}^2+3\min\bigl(\E \chi_{ij}^4/(d^-_{ij})^2,\,\pi^2\E \chi_{ij}^2\bigr)\Bigr)^{1/2}.
+\]
+\end{lemma}
+
+\begin{proof}
+Each term of $\varrho$ is at most $\nu_{ij}(\lambda_{ij}\chi_{ij}^2+\mu_{ij}\chi_{ij}+\min(\chi_{ij}^2/d^-_{ij},\pi \chi_{ij}))$, and $\E\min(a,b)\le\min(\E a,\E b)$. For the second moment use $(a+b+c)^2\le3(a^2+b^2+c^2)$ for each term and Minkowski's inequality for the sum.
+\end{proof}
+
+\subsection{Interior boxes}
+In the coordinates $x$ the displacement is $x-x_c$, with components $\Delta_d$, and Lemma~\ref{lem:vertex} gives $A(y)\le A(c)+\langle b,\Delta\rangle+\varrho$, where $b_0=\partial A/\partial r_2$ and $b_d$ for $d\ge1$ are the partial derivatives of $A$ at $c$ with respect to the coordinates $\xi_j$ and $\eta_j$. Put
+\[
+\tau=A(c)-\frac12\sum_d|b_d|h_d,\qquad S_b=\Bigl(\sum_db_d^2h_d^2/12\Bigr)^{1/2}.
+\]
+
+\begin{proposition}\label{prop:interior}
+Let $Q$ be as in Lemma~\textup{\ref{lem:vertex}}, let $\overline R\ge\E\varrho$ and $\overline S\ge(\E\varrho^2)^{1/2}$, and suppose that $\tau>0$. Then $\E[r_2\varphi(A(y))]\ge V(Q)$, where $\bar r=a_0+h_0/2$ and
+\[
+V(Q)=\bar r\,\varphi\bigl(A(c)+\overline R\bigr)+\varphi'(A(c))\frac{b_0h_0^2}{12}-|\varphi'(A(c))|\frac{h_0}2\overline R-\frac{h_0}4\varphi''(\tau)\bigl(S_b+\overline S\bigr)^2.
+\]
+\end{proposition}
+
+\begin{proof}
+Put $Z=A(c)+\langle b,\Delta\rangle+\varrho$. Then $A(y)\le Z$, and $Z\ge\tau$ because $\varrho\ge0$. Since $\varphi$ is decreasing and $r_2\ge0$ on $Q$, $r_2\varphi(A(y))\ge r_2\varphi(Z)=\bar r\varphi(Z)+\Delta_0\varphi(Z)$. Since $\varphi$ is convex and decreasing and $\E\langle b,\Delta\rangle=0$, Jensen's inequality gives $\E\varphi(Z)\ge\varphi(A(c)+\E\varrho)\ge\varphi(A(c)+\overline R)$. For the other part, Taylor's theorem gives $\varphi(Z)=\varphi(A(c))+\varphi'(A(c))(Z-A(c))+\omega$ with $|\omega|\le\frac12\varphi''(\tau)(Z-A(c))^2$, because $Z$ and $A(c)$ are at least $\tau$ and $\varphi''$ is decreasing. Now $\E\Delta_0=0$, $\E[\Delta_0\langle b,\Delta\rangle]=b_0h_0^2/12$ and $|\E[\Delta_0\varrho]|\le\frac{h_0}2\E\varrho$, since $\varrho\ge0$ and $|\Delta_0|\le h_0/2$. Finally $|\E[\Delta_0\omega]|\le\frac{h_0}4\varphi''(\tau)\E(Z-A(c))^2$, and $\E(Z-A(c))^2\le(S_b+(\E\varrho^2)^{1/2})^2$ by Minkowski's inequality, since $\E\langle b,\Delta\rangle^2=S_b^2$.
+\end{proof}
+
+If $\gmin(Q)=\gmax(Q)$, then $g(G_1(y))=\gmin(Q)$ on $Q$, and the box contributes at least $v\,\gmin(Q)\max(V(Q),0)$ to the integral of Lemma~\ref{lem:domain}, provided that $Q\subseteq D_k$.
+
+\subsection{Boxes with undetermined edges}\label{sec:undet}
+For a box $Q$ as in Lemma~\ref{lem:vertex} put
+\begin{gather*}
+f^-=a_0\,\varphi\Bigl(A(c)+\frac12\sum_d|b_d|h_d+R_{\max}\Bigr),\\
+f^+=(a_0+h_0)\,\varphi\Bigl(\max\Bigl(\pi,\ A(c)-\frac12\sum_d|b_d|h_d-R_{\max}\Bigr)\Bigr).
+\end{gather*}
+By Lemma~\ref{lem:vertex} and \eqref{eq:Rmax}, and since the union contains a unit disk, $f^-\le r_2\varphi(A(y))\le f^+$ on $Q$. For $0\le q\le1$ let
+\[
+\Phi(q)=\max\bigl(q f^-,\ V^*-(1-q)f^+\bigr),
+\]
+where $V^*=\max(V(Q),0)$ if $\tau>0$ and $V^*=0$ otherwise.
+
+\begin{lemma}\label{lem:event}
+If $F\subseteq Q$ is measurable and $\Pr(F)\ge q$ for the uniform measure on $Q$, then $\frac1v\int_{F}r_2\varphi(A(y))\,dx\ge\Phi(q)$.
+\end{lemma}
+
+\begin{proof}
+The first expression is at least $\Pr(F)f^-$. Also $\int_F=\int_Q-\int_{Q\setminus F}$, the first integral is at least $vV^*$ by Proposition~\ref{prop:interior} and since the integrand is nonnegative, and the second is at most $v(1-q)f^+$.
+\end{proof}
+
+\begin{proposition}\label{prop:boundary}
+Let $Q\subseteq D_k$ be as in Lemma~\textup{\ref{lem:vertex}}. Let $\mathcal T$ be a set of one or two undetermined edges, and for each assignment $\sigma$ of the states present and absent to the edges in $\mathcal T$ let $F_\sigma\subseteq Q$ be the event that the edges have these states, $q_\sigma$ a lower bound for $\Pr(F_\sigma)$, and $g_\sigma$ the least value of $g$ over the graphs that contain the present edges of $Q$, avoid its absent edges and give the edges in $\mathcal T$ the states $\sigma$. Then
+\[
+\int_Qr_2\,g(G_1(y))\,\varphi(A(y))\,dx\ge v\,\gmin(Q)\,V^*+v\sum_\sigma\bigl(g_\sigma-\gmin(Q)\bigr)\,\Phi(q_\sigma).
+\]
+\end{proposition}
+
+\begin{proof}
+The events $F_\sigma$ partition $Q$, and $g(G_1(y))\ge\gmin(Q)+\sum_\sigma(g_\sigma-\gmin(Q))\mathbf 1_{F_\sigma}(x)$ on $Q$. Integrate against $r_2\varphi(A(y))$ and use Proposition~\ref{prop:interior} and Lemma~\ref{lem:event}.
+\end{proof}
+
+Our programs evaluate the right-hand side for every single undetermined edge and every pair of them, and use the largest value. The edge $ij$ is present exactly when $|U_i-U_j|\le1$, where $U_i$ and $U_j$ are independent and uniform on $R_i$ and $R_j$. The difference $U_i-U_j$ has independent coordinates. Each has a trapezoidal density with explicit distribution function, except the second coordinate for the pair $(1,2)$, which is $0$. We cut the range of the first coordinate into eight strips of equal width, inscribe in the unit disk and circumscribe about it the union of rectangles over these strips, and obtain lower bounds for $\Pr(|U_i-U_j|\le1)$ and $\Pr(|U_i-U_j|>1)$ as sums of products of exact differences of distribution functions. For two edges without a common vertex the events are independent, and we multiply the bounds. For two edges with a common vertex we use the Fr\'echet bound $\Pr(F\cap F')\ge\Pr(F)+\Pr(F')-1$.
+
+\subsection{Boxes at the boundary of the domain}
+The box $Q$ lies outside $D_k$, up to a null set, if $\min_Q\xi_j>\max_Q\xi_{j+1}$ for some $j$. Such boxes contribute nothing. The pair $(j,j+1)$ \emph{straddles} $Q$ if $\min_Q\xi_j\le\max_Q\xi_{j+1}$ and $\max_Q\xi_j>\min_Q\xi_{j+1}$.
+
+\begin{proposition}\label{prop:straddle}
+Let $Q$ be as in Lemma~\textup{\ref{lem:vertex}} with $a_0\ge0$ and $\min_Q\eta_3\ge0$, and suppose that exactly one pair $(j,j+1)$ straddles $Q$ and that no other pair violates the order. Let $q=\Pr(\xi_j\le\xi_{j+1})$ for the uniform measure on $Q$. Then
+\[
+\int_{Q\cap D_k}r_2\,g(G_1(y))\,\varphi(A(y))\,dx\ge v\,\gmin(Q)\,\Phi(q).
+\]
+\end{proposition}
+
+\begin{proof}
+Here $Q\cap D_k$ is the event $\xi_j\le\xi_{j+1}$, and $g\ge\gmin(Q)$. Apply Lemma~\ref{lem:event}.
+\end{proof}
+
+The probability $q$ is the value at $0$ of the trapezoidal distribution function of $\xi_j-\xi_{j+1}$. Boxes with two or more straddling pairs contribute nothing.
+
+\subsection{Boxes in which two points can coincide}
+If $d^-_{ij}=0$ for some pair, Lemma~\ref{lem:vertex} does not apply. Put $\varepsilon=\max_j\varepsilon_j$.
+
+\begin{proposition}\label{prop:coincident}
+Let $Q\subseteq D_k$ be a box. Then
+\[
+\int_Qr_2\,g(G_1(y))\,\varphi(A(y))\,dx\ge v\,\gmin(Q)\,a_0\,\varphi\bigl((1+\varepsilon)^2A(c/(1+\varepsilon))\bigr),
+\]
+where $c/(1+\varepsilon)$ is the configuration with points $c_j/(1+\varepsilon)$.
+\end{proposition}
+
+\begin{proof}
+For $x\in Q$ we have $B(y_j,1)\subseteq B(c_j,1+\varepsilon)$, so $A(y)$ is at most the area of the union of the disks $B(c_j,1+\varepsilon)$, which is $(1+\varepsilon)^2A(c/(1+\varepsilon))$ by scaling. Moreover $r_2\ge a_0$ and $g\ge\gmin(Q)$.
+\end{proof}
+
+The programs use Proposition~\ref{prop:coincident} for every box with $d^-_{ij}=0$ for some pair, provided that no pair straddles it. If a pair straddles such a box, the box receives $0$.
+
+\section{The computation}\label{sec:cert}
+
+\subsection{The boxes}\label{sec:search}
+For $k=3,4,5$ the search program subdivides $X_k$. It first bisects $X_k$ breadth first, always at the midpoint of the widest coordinate, into $N$ initial boxes, where $N$ is a power of two. Then it processes every box $Q$ recursively as follows. It drops $Q$ if $Q$ lies outside $D_k$ or $\gmax(Q)=0$. It bisects $Q$ at the midpoint of its widest coordinate if this width exceeds a parameter $W_0$. Otherwise it computes the bound that applies: Proposition~\ref{prop:coincident} if two points can coincide and no pair straddles $Q$; $0$ if two points can coincide and a pair straddles $Q$, or if two or more pairs straddle $Q$; Proposition~\ref{prop:straddle} if exactly one pair straddles $Q$; Proposition~\ref{prop:boundary} if $\gmin(Q)<\gmax(Q)$; and $v\,\gmin(Q)\max(V(Q),0)$ otherwise. It also computes an estimate of the loss of this bound, namely $\kappa_kv\gmax(Q)\bar r\varphi(A(c))$ minus $\kappa_k$ times the bound. If the estimate exceeds a parameter $\mathrm{tol}$ and the relevant width exceeds a floor $W_f$, it bisects $Q$ at the midpoint of the coordinate that realizes the relevant width. For interior boxes and for boxes in which two points can coincide, the relevant width is the largest width; for straddling boxes, it is the larger of the widths of $\xi_j$ and $\xi_{j+1}$ over the pairs $(j,j+1)$ that straddle $Q$; for the other boxes, it is the largest width among the coordinates of the points that meet an undetermined edge. A box that is neither dropped nor split is a \emph{leaf}. Since every split is a bisection, the leaves and the dropped boxes partition $X_k$. All box corners are dyadic rationals, which are exact in double precision. The program uses double precision throughout and is not part of the proof.
+
+The leaves do not depend on $N$ as long as the initial bisection splits only boxes whose widest coordinate is wider than $W_0$, that is, for $N\le2^{13}$, $2^{18}$ and $2^{26}$ when $k=3$, $4$ and $5$, respectively, and $W_0$ is as in Table~\ref{tab:runs}. Indeed, the recursion splits such boxes at the same coordinate, and a box that is dropped has only dropped sub-boxes. The checker takes $N$ as a parameter. The search program takes $N$ to be the least power of two that is at least $64$ times the number of threads. For $k=3$ this is at most $2^{13}$ only on at most $128$ threads.
+
+\subsection{The checker}\label{sec:checker}
+The checker contains a verbatim copy of the recursion of the search program, so for the same $N$, or any $N$ in the range of Section~\ref{sec:search}, it visits the same leaves. The float decisions of this copy need not be correct. For every leaf it takes from the copy only the corners (and, for the skip below, the float value) and computes the following in ball arithmetic \cite{Joh17}, at $128$ bits of precision.
+\begin{enumerate}[label=(\arabic*),leftmargin=*]
+\item It checks that the centre and the widths of the leaf are exact in double precision, that $a_0\ge0$ and $\min\eta_3\ge0$, and which pairs violate or straddle the order.
+\item It classifies the edges from the exact squared distances $(d^\pm_{ij})^2$ between the dyadic rectangles.
+\item It computes $\gmin$, $\gmax$ and the values $g_\sigma$ from its own table of $2g=2p-n_1$, where $p$ is computed by enumerating the orders of the vertices.
+\item It computes $A(c)$ and $\nabla A(c)$ from \eqref{eq:green} and \eqref{eq:grad}. The endpoints $\psi_{ij}\pm\alpha_{ij}$ of the arcs covered by the other disks are balls. It replaces each by an exact double, computes the exposed set of these doubles exactly on a circle of length equal to the double nearest to $2\pi$, integrates over this set in ball arithmetic, and adds an explicit bound for the effect of the replacement and of the change of circle.
+\item It computes $\nu_{ij}$ (dropping a vertex only if the test of Remark~\ref{rem:prune} holds for the whole ball), $R_{\max}$, and the bounds of Lemma~\ref{lem:moments}.
+\item It evaluates the bound of Propositions~\ref{prop:interior}--\ref{prop:coincident} that applies, with the probabilities of Propositions~\ref{prop:boundary} and~\ref{prop:straddle} from exact distribution functions and with $V^*=0$ unless $\tau>0$ is certified, and takes the lower endpoint, or $0$ if this is negative.
+\item It adds the lower endpoints with rigorous rounding and multiplies the sum by $\kappa_k$ in ball arithmetic.
+\end{enumerate}
+Leaves whose float value is zero are skipped, which can only lower the result. The checker prints $\lfloor10^{10}x\rfloor/10^{10}$ for the lower endpoint $x$ of the product. It can split the initial boxes into contiguous ranges and treat each range separately. A range prints the exact integer $\lfloor10^{30}x\rfloor$ for the lower endpoint $x$ of its sum, and a separate step adds these integers after checking that the ranges come from the same parameters and the same build of the checker and do not overlap.
+
+\subsection{Proof of the bounds for \texorpdfstring{$k\le5$}{k <= 5}}\label{sec:proof5}
+For $k=3,4,5$ the checker, run with the parameters of Table~\ref{tab:runs}, prints the stated lower bounds. Every leaf $Q$ that it evaluates satisfies the hypotheses of the proposition that it applies, by steps (1)--(5) and, for Proposition~\ref{prop:interior}, the certified test $\tau>0$ in step (6). So the value it adds is at most $\int_{Q\cap D_k}r_2g\varphi(A)\,dx$, and the other leaves and the dropped boxes contribute nonnegative amounts. Since the leaves and the dropped boxes partition $X_k$, Lemma~\ref{lem:domain} gives the bounds for $C_3$, $C_4$ and $C_5$. Section~\ref{sec:large} bounds $C_6,\dots,C_{\Kmax}$ and completes the proof of Theorem~\ref{thm:main}.
+
+\subsection{Runs}\label{sec:runs}
+Table~\ref{tab:runs} lists the runs; for $k=4$ and $k=5$ the initial boxes were split into ranges of equal length. In all runs no leaf value falls below $0.999$ times the float value of the search program. The tests of the checker, against the search program, with deliberate errors and against separately written programs, and its reruns on other machines are in Appendix~\ref{sec:checks}.
+
+\begin{table}[ht]
+\centering
+\caption{The checker runs.}\label{tab:runs}
+\small
+\begin{tabular}{@{}llll@{}}
+\toprule
+& $k=3$ & $k=4$ & $k=5$\\
+\midrule
+$W_0$; $W_f$ & \WThree & \WFour & \WFive\\
+$\mathrm{tol}$; $N$ & \EpsThree & \EpsFour & \EpsFive\\
+Ranges of initial boxes & \RangesThree & \RangesFour & \RangesFive\\
+Leaves & \LeavesThree & \LeavesFour & \LeavesFive\\
+\quad evaluated in ball arithmetic & \EvalThree & \EvalFour & \EvalFive\\
+\qquad of these, with coinciding points possible & \CoinThree & \CoinFour & \CoinFive\\
+Float sum of the leaf bounds & \FltThree & \FltFour & \FltFive\\
+Certified lower bound for $C_k$ & $\CThree$ & $\CFour$ & $\CFive$\\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\section{The terms with \texorpdfstring{$k\ge6$}{k >= 6}}\label{sec:large}
+
+For $k\ge6$ we do not subdivide the space of configurations adaptively, and we follow the outline given in the introduction. Section~\ref{sec:sorted} passes to sorted coordinates, Section~\ref{sec:sweep} bounds $g$ from below, Section~\ref{sec:laplace} bounds $A$ from above and takes the Laplace transform in $A$, and Section~\ref{sec:weval} evaluates the resulting bound.
+
+\subsection{Sorted coordinates}\label{sec:sorted}
+Let $\mathbb H=\{z\in\R^2:z^{(1)}>0\}$, where $z^{(1)}$ is the first coordinate of $z$. For $z=(z_1,\dots,z_{k-1})\in\mathbb H^{k-1}$ let $y(z)$ be the configuration with $y_1=0$ and $y_{i+1}=y_i+z_i$ for $1\le i\le k-1$. Its points are ordered by their first coordinates.
+
+\begin{lemma}\label{lem:sorted}
+For $k\ge3$ and $s=k-\frac12$,
+\[
+C_k=\frac{\Gamma(s)}2\int_{\mathbb H^{k-1}}g\bigl(G_1(y(z))\bigr)\,A\bigl(y(z)\bigr)^{-s}\,dz.
+\]
+\end{lemma}
+
+\begin{proof}
+The function $F(y)=g(G_1(y))A(y)^{-s}$ is invariant under translations of the configuration and under permutations of its points. For a permutation $\pi$ of $\{1,\dots,k\}$ consider the map $(y_2,\dots,y_k)\mapsto(y_{\pi(2)}-y_{\pi(1)},\dots,y_{\pi(k)}-y_{\pi(1)})$, where $y_1=0$. It is linear and has an integer matrix, and its inverse, the map for $\pi^{-1}$, has one too, so its determinant is $\pm1$. The function $F$ has the same value at a configuration and at its image. The map sends the set of configurations with $y_1=0$ and $y_{\pi(1)}^{(1)}<\dots<y_{\pi(k)}^{(1)}$ onto the set of configurations with $y_1=0$ and $y_1^{(1)}<\dots<y_k^{(1)}$. The $k!$ sets of the first kind cover $(\R^2)^{k-1}$ up to a null set, so the integral of Theorem~\ref{thm:dc} is $k!$ times the integral of $F$ over the sorted configurations. In the coordinates $z_i=y_{i+1}-y_i$, which have Jacobian $1$, the sorted configurations form $\mathbb H^{k-1}$.
+\end{proof}
+
+\subsection{The window graph}\label{sec:sweep}
+Fix $z\in\mathbb H^{k-1}$, write $y=y(z)$ and $G=G_1(y)$. The \emph{window graph} $H(z)$ is the graph on $\{1,\dots,k\}$ whose edges are the edges $\{j,l\}$ of $G$ with $|j-l|\le3$. For a graph $H'$ on $\{1,\dots,k\}$ let $n_{<2}(H')$ be the number of its vertices of degree less than $2$, and put
+\[
+\Lambda(H')=\begin{cases}\max\bigl(0,1-\tfrac12n_{<2}(H')\bigr)&\text{if $H'$ is connected},\\0&\text{otherwise.}\end{cases}
+\]
+Let $\hat g(z)=\Lambda(H(z))$. Adding edges to a graph keeps it connected and does not increase $n_{<2}$, so $\Lambda$ is nondecreasing under adding edges. In particular $\Lambda(H')\le\hat g(z)$ for every graph $H'$ on $\{1,\dots,k\}$ whose edges are edges of $H(z)$.
+
+\begin{lemma}\label{lem:ghat}
+For every $z\in\mathbb H^{k-1}$ we have $0\le\hat g(z)\le g(G_1(y(z)))$.
+\end{lemma}
+
+\begin{proof}
+If $\hat g(z)=0$, the claim is $g\ge0$, which holds by \cite[Lemma~3]{DC26} and because $g=0$ on disconnected graphs. Suppose that $\hat g(z)>0$. Then $H(z)$ is connected, and it is a spanning subgraph of $G$, so $G$ is connected. Since $q(G)\ge1$ and $D(G)=n_1(G)/2$, we get $g(G)\ge1-n_1(G)/2$. A vertex of degree $1$ in $G$ has degree at most $1$ in $H(z)$, so $n_1(G)\le n_{<2}(H(z))$, and $g(G)\ge1-\frac12n_{<2}(H(z))=\hat g(z)$.
+\end{proof}
+
+The value $\Lambda(H')$ of a graph $H'$ whose edges join vertices at most three apart can be computed in one pass over the vertices that remembers only a window of three vertices. After the vertices $1,\dots,i$ have been processed, let $H'_i$ be the subgraph of $H'$ induced by them, and call $\{\max(1,i-2),\dots,i\}$ the window. The pass starts with the window $\{1\}$, the degree $0$ and the count $0$. The state consists of the partition of the window by the components of $H'_i$, the degrees in $H'_i$ of the window vertices, capped at $2$, and the number, $0$ or $1$, of vertices $j\le i-3$ of degree less than $2$ in $H'_i$. If this number would become $2$, the pass returns $0$, because $\Lambda=0$ once two vertices have degree less than $2$. To process the vertex $i+1$, we add it with its edges to those of the vertices $i$, $i-1$ and $i-2$ that exist, and update the degrees. Since all these neighbours lie in the window, the new partition is obtained by merging the blocks of the neighbours with the new vertex. For $i\ge3$ we then remove the vertex $i-2$ from the window. All possible neighbours of $i-2$ have then been processed, so its degree is final, and it is counted if this degree is less than $2$. If the component of $i-2$ does not meet the new window, then $H'$ is disconnected, because every later edge has both ends at least $i-1$, and the value is $0$. After the last vertex, $H'$ is connected if and only if the window lies in one block, and then $\Lambda(H')=\max(0,1-\frac12n_{<2}(H'))$, where $n_{<2}(H')$ is the count plus the number of window vertices of degree less than~$2$.
+
+\begin{lemma}\label{lem:enc}
+This pass returns $\Lambda(H')$.
+\end{lemma}
+
+\begin{proof}
+By induction on $i$, the state after vertex $i$ is as described, and every component of $H'_i$ meets the window, unless the pass has returned $0$. In that case $H'$ is disconnected or has two vertices of degree less than $2$, and $\Lambda(H')=0$ in both cases. A degree of a vertex that has left the window no longer changes. At the end, therefore, the count and the window degrees give $n_{<2}(H')$, and, since every component of $H'$ meets the window, $H'$ is connected exactly when the window lies in one block of the partition.
+\end{proof}
+
+\subsection{The area and the Laplace transform}\label{sec:laplace}
+For $r\ge0$ put $A_1(r)=\area(B(z,1)\setminus B(0,1))$ for any $z\in\R^2$ with $|z|=r$, and for $w',w,z\in\R^2$ put
+\begin{align*}
+A_2(w,z)&=\area\bigl(B(z,1)\setminus(B(0,1)\cup B(-w,1))\bigr),\\
+A_3(w',w,z)&=\area\bigl(B(z,1)\setminus(B(0,1)\cup B(-w,1)\cup B(-w-w',1))\bigr).
+\end{align*}
+Thus $A_1(r)=\pi-2\arccos(r/2)+\frac r2\sqrt{4-r^2}$ for $r\le2$ and $A_1(r)=\pi$ for $r\ge2$, and $A_3(w',w,z)\le A_2(w,z)\le A_1(|z|)$.
+
+\begin{lemma}\label{lem:laplace}
+For $k\ge3$ and $s=k-\frac12$,
+\[
+C_k\ge\frac12\int_0^\infty t^{s-1}e^{-\pi t}\,\Psi_k(t)\,dt,\qquad\Psi_k(t)=\int_{\mathbb H^{k-1}}\hat g(z)\,e^{-t\hat A(z)}\,dz,
+\]
+where $\hat A(z)=A_1(|z_1|)+A_2(z_1,z_2)+\sum_{i=3}^{k-1}A_3(z_{i-2},z_{i-1},z_i)$.
+\end{lemma}
+
+\begin{proof}
+Write $B_i=B(y_i,1)$. Adding the disks in the order of their indices,
+\begin{align*}
+A(y)&=\pi+\sum_{i=2}^k\area\Bigl(B_i\setminus\bigcup_{j<i}B_j\Bigr)\\
+&\le\pi+\area(B_2\setminus B_1)+\area\bigl(B_3\setminus(B_2\cup B_1)\bigr)+\sum_{i=4}^k\area\bigl(B_i\setminus(B_{i-1}\cup B_{i-2}\cup B_{i-3})\bigr).
+\end{align*}
+Translating $y_{i-1}$ to the origin shows that the term for $i\ge4$ is $A_3(z_{i-3},z_{i-2},z_{i-1})$, the term for $i=3$ is $A_2(z_1,z_2)$, and the term for $i=2$ is $A_1(|z_1|)$. For $a>0$ we have $a^{-s}=\Gamma(s)^{-1}\int_0^\infty t^{s-1}e^{-ta}\,dt$, which is decreasing in $a$. Lemmas~\ref{lem:sorted} and~\ref{lem:ghat}, these two facts and Tonelli's theorem give the claim.
+\end{proof}
+
+
+In the pass of Lemma~\ref{lem:enc}, the step that processes the vertex $i+1$ uses the edges $\{i+1,i\}$, $\{i+1,i-1\}$ and $\{i+1,i-2\}$, which depend only on $(z_{i-2},z_{i-1},z_i)$, and the factor $e^{-tA_3(z_{i-2},z_{i-1},z_i)}$ depends on the same triple. Thus $\Psi_k(t)$ is a sum, over the sequences of states of the pass, of iterated integrals of kernels in three consecutive increments; the term for each sequence is weighted by the value $\Lambda$ of its final state. A forward recursion over the vertices, a transfer operator on functions of the state and of the last two increments, gives all $k$ at once.
+
+\subsection{Evaluation}\label{sec:weval}
+We cut the set of increments $z$ with $|z|\le2$ in $\mathbb H$ into polar cells $Z=\{ru(\theta):\underline r\le r\le\overline r,\ \underline\theta\le\theta\le\overline\theta\}$. The radii form a grid with $\WNone$ equal steps on $[0,1]$ and $\WNtwo$ on $[1,2]$, and the angles form a grid with an even number $\WNt$ of equal steps on $(-\pi/2,\pi/2)$. (The programs use the angular range $(0,\pi)$, which is equivalent, since only differences of angles enter.) Configurations with some $|z_i|>2$ are dropped, which lowers the integral.
+
+\emph{Edge classes.} On a product cell $\Omega=Z_1\times\dots\times Z_{k-1}$ we declare the edge $\{i+1,i\}$ of the window graph present if $\overline r(Z_i)\le1$. Otherwise it is absent up to a null set, because $1$ is a grid radius. We declare the edge $\{i+1,i-1\}$ present if $|z+z'|\le1$ for all $z\in Z_{i-1}$ and $z'\in Z_i$ is certified in ball arithmetic, and absent otherwise. The extreme values of $|z+z'|^2=r^2+r'^2+2rr'\cos(\theta'-\theta)$ over a pair of cells are attained at the corners of the box of radii or, for the minimum, at the minimizers on its edges, with the extreme values of $\cos(\theta'-\theta)$. We declare the edge $\{i+1,i-2\}$ present only if the following test certifies that $|z+z'+z''|\le1$ for all $z\in Z_{i-2}$, $z'\in Z_{i-1}$ and $z''\in Z_i$, and absent otherwise. Each cell is enclosed in the pentagon whose vertices are its four corners and the point at distance $\overline r/\cos((\overline\theta-\underline\theta)/2)$ from the origin on its middle ray, where the tangents to the outer arc at its ends meet. The maximum of the norm over the sum of three pentagons is attained at a sum of three vertices, one from each pentagon. We compute the $125$ sums from the vertices rounded to doubles and declare the edge present if the largest norm is at most $1-10^{-12}$, which covers the rounding errors. Let $H_\Omega$ be the graph of the edges declared present. Its edges are edges of $H(z)$ for every $z\in\Omega$, so $\Lambda(H_\Omega)\le\hat g(z)$ on $\Omega$. The pass of Lemma~\ref{lem:enc} has $103$ reachable states.
+
+\emph{Averaging.} On $\Omega$, Jensen's inequality for the uniform probability on $\Omega$ gives
+\[
+\int_\Omega\hat g(z)\,e^{-t\hat A(z)}\,dz\ \ge\ \Lambda(H_\Omega)\,|\Omega|\,\exp\Bigl(-t\Bigl(\bar a_1(Z_1)+\bar a_2(Z_1,Z_2)+\sum_{i=3}^{k-1}\bar a_3(Z_{i-2},Z_{i-1},Z_i)\Bigr)\Bigr),
+\]
+where $\bar a_1(Z)$, $\bar a_2(Z,Z')$ and $\bar a_3(Z,Z',Z'')$ are upper bounds for the means of $A_1(|z|)$ over $Z$, of $A_2(w,z)$ over $Z\times Z'$ and of $A_3(w',w,z)$ over $Z\times Z'\times Z''$. We compute these bounds in ball arithmetic at $128$ bits and round them upward to doubles, and we round $\bar a_3$ further upward to single precision. For $\bar a_1$ we use an upper Riemann sum with $64$ subintervals and the radial density, since $A_1$ is increasing.
+
+The bounds $\bar a_2$ and $\bar a_3$ come from Lemma~\ref{lem:vertex} for unions of three and four disks whose centres are sums of increments. Let $\mathcal K_1,\dots,\mathcal K_m$ be compact convex sets, and let $x_1,\dots,x_m$ be independent random points, uniform on cells $Z_s\subseteq\mathcal K_s$. The centres are $y_p=\sum_sa_{ps}x_s$ for $p=1,\dots,n$, with integer coefficients $a_{ps}$, and $A(y)$ is the area of the union of the unit disks centred at $y_1,\dots,y_n$. For points $\tilde c_s\in\mathcal K_s$ we expand at $c_p=\sum_sa_{ps}\tilde c_s$ and put $\delta_p=y_p-c_p$. For $p<q$ let $d^\pm_{pq}$ bound $|y_p-y_q|$ from below and above on $\mathcal K_1\times\dots\times\mathcal K_m$, and define $T_{pq}$ and $\nu_{pq}$ as in Section~\ref{sec:vertex}, with the segments from $c$ to $y(x)$, $x\in Z_1\times\dots\times Z_m$, in place of the segments in a box. Let $\bar c_s$ be the centroid of $Z_s$ and $\sigma_s^2=\E|x_s-\bar c_s|^2$, and for $p<q$ let
+\[
+\bar\chi_{pq}\ge\sum_s\bigl(|a_{ps}|+|a_{qs}|\bigr)\sigma_s+\Bigl|\sum_sa_{ps}(\bar c_s-\tilde c_s)\Bigr|+\Bigl|\sum_sa_{qs}(\bar c_s-\tilde c_s)\Bigr|.
+\]
+
+\begin{lemma}\label{lem:linear}
+Suppose that $d^-_{pq}>0$ for all $p<q$. Then
+\begin{align*}
+\bigl|\E A(y)-A(c)\bigr|&\le2\sum_p\Bigl|\sum_sa_{ps}(\bar c_s-\tilde c_s)\Bigr|\\
+&\quad+\sum_{p<q,\ d^-_{pq}<2}\nu_{pq}\Bigl(\lambda_{pq}\bar\chi_{pq}^2+\mu_{pq}\bar\chi_{pq}+\min\bigl(\bar\chi_{pq}^2/d^-_{pq},\,\pi\bar\chi_{pq}\bigr)\Bigr).
+\end{align*}
+\end{lemma}
+
+\begin{proof}
+The map $x\mapsto y$ is linear, so the segment from $c$ to $y(x)$ is the image of the segment from $(\tilde c_1,\dots,\tilde c_m)$ to $x$, which lies in $\mathcal K_1\times\dots\times\mathcal K_m$. Along it the distances between the centres lie in $[d^-_{pq},d^+_{pq}]$. The proof of Lemma~\ref{lem:vertex} uses only these distances along the segment, so for every $x$ the error of the linear approximation is at most $\sum\nu_{pq}\chi_{pq}T_{pq}(|\delta_q-\delta_p|)$, with $\chi_{pq}=|\delta_p|+|\delta_q|$. The linear term has mean $\sum_p\langle\nabla_{y_p}A(c),\E\delta_p\rangle$, and $\E\delta_p=\sum_sa_{ps}(\bar c_s-\tilde c_s)$. By~\eqref{eq:grad} the gradient with respect to one centre has norm at most $2$, which gives the first term. Since $T_{pq}$ is increasing and $|\delta_q-\delta_p|\le\chi_{pq}$, each term of the error is at most $\nu_{pq}(\lambda_{pq}\chi_{pq}^2+\mu_{pq}\chi_{pq}+\min(\chi_{pq}^2/d^-_{pq},\pi\chi_{pq}))$, and $\E\min(a,b)\le\min(\E a,\E b)$. Finally $\chi_{pq}\le\sum_s(|a_{ps}|+|a_{qs}|)|x_s-\bar c_s|+|\E\delta_p|+|\E\delta_q|$, so Minkowski's inequality gives $(\E\chi_{pq}^2)^{1/2}\le\bar\chi_{pq}$, and $\E\chi_{pq}\le(\E\chi_{pq}^2)^{1/2}$.
+\end{proof}
+
+As the sets $\mathcal K_s$ we take the convex hulls of the cells, enlarged by disks of radius $10^{-15}$. We expand at the doubles nearest to the sums $\sum_sa_{ps}\bar c_s$ that occur as centres. They have the form $c_p=\sum_sa_{ps}\tilde c_s$ with $|\tilde c_s-\bar c_s|<10^{-15}$, so $\tilde c_s\in\mathcal K_s$. The centroid of a cell has norm $\frac23\frac{\overline r^3-\underline r^3}{\overline r^2-\underline r^2}\frac{\sin((\overline\theta-\underline\theta)/2)}{(\overline\theta-\underline\theta)/2}$ and $\sigma_s^2=(\underline r^2+\overline r^2)/2-|\bar c_s|^2$. The bounds $d^\pm$ are computed on sets that contain the hulls: the hull of a cell lies in the polar box with inner radius $\underline r\cos((\overline\theta-\underline\theta)/2)$ and in the pentagon of the edge test. For a single increment or the sum of two we use the polar boxes, as in the edge test, and for the sum of three we use the pentagons as described below. We widen all these bounds by $10^{-12}$, which covers the enlargement. We take $\nu_{pq}=2$ for every pair with $d^-_{pq}<2$ and choose $(\lambda_{pq},\mu_{pq})$ as in Section~\ref{sec:vertex}. The Riemann sums below use $64$ subintervals.
+
+\emph{The bound $\bar a_2$.} We write $A_2(w,z)=\area(B(-w,1)\cup B(0,1)\cup B(z,1))-\pi-A_1(|w|)$. The mean of $A_1(|w|)$ over $Z$ is bounded from below by a lower Riemann sum. The mean of the area of the three disks is bounded from above by Lemma~\ref{lem:linear} with the increments $w\in Z$ and $z\in Z'$ and the centres $-w$, $0$ and $z$. The area at the expansion point is computed as in the checker (Section~\ref{sec:checker}). Where some $d^-_{pq}$ is not certified to be positive, or where this computation fails, which happens only when a distance between two centres cannot be separated from $0$ or from $2$, we use only $A_2(w,z)\le A_1(|z|)$, whose mean we bound by an upper Riemann sum. In general we take the smaller of the two bounds.
+
+\emph{The bound $\bar a_3$.} For $w'\in Z$, $w\in Z'$ and $z\in Z''$ put $P_0=-w-w'$, $P_1=-w$, $P_2=0$ and $P_3=z$. Let $U_4$ be the area of the union of the unit disks centred at $P_0,\dots,P_3$, and $U_3$ that of the disks centred at $P_0$, $P_1$ and $P_2$, so that $A_3(w',w,z)=U_4-U_3$. The six distances between the centres are $|w'|$, $|w|$, $|z|$, $|w'+w|$, $|w+z|$ and $|w'+w+z|$. For the last one, the largest norm of the $125$ sums of pentagon vertices bounds it from above, and $\sum\min_v\langle e,v\rangle$ bounds it from below, where the sum runs over the three pentagons, $v$ over the vertices of a pentagon and $e$ is the unit vector along the sum of the means of the vertices. If $|w'+w+z|\ge2$ on the whole product, the disks centred at $P_0$ and $P_3$ meet in at most one point, so $A_3=A_2(w,z)$ on the product, and we take $\bar a_3=\bar a_2(Z',Z'')$. Otherwise the mean of $U_4$ is bounded from above by Lemma~\ref{lem:linear} for its six pairs of centres, with its value at the expansion point computed as in the checker. The mean of $U_3$ is bounded from below by the larger of two bounds. The first is Lemma~\ref{lem:linear}, which bounds $|\E U_3-U_3(c)|$. The second uses that the union contains $B(P_1,1)\cup B(P_2,1)$, so $U_3\ge\pi+A_1(|w|)$, with a lower Riemann sum for the mean of $A_1(|w|)$. Then $\bar a_3$ is the smaller of $\bar a_2(Z',Z'')$ and the difference of the two bounds, since $A_3\le A_2$ pointwise. Where Lemma~\ref{lem:linear} does not apply to $U_4$, for the reasons given for $\bar a_2$, we take $\bar a_3=\bar a_2(Z',Z'')$, and where it does not apply to $U_3$ we use only the second lower bound. A negative value of $\bar a_3$ would stop the program, but none occurs.
+
+\emph{Symmetry.} Since a rotation of all cells preserves these quantities, they depend only on the radial indices and the differences of the angular indices. The reflection in the first axis maps sorted configurations to sorted configurations. We make the pair tables invariant under it by taking the weaker bound for any two cell pairs that it exchanges, that is, the larger upper bound and the smaller lower bound, and, where the edge classes differ, an absent edge. The triple tables are computed for one half of the angular differences and copied to the other half. This is valid because the reflection maps each product of three cells onto its image and preserves the exact means of $A_3$ and the exact relations $|z+z'+z''|\le1$, so a bound for one product is a bound for the other. Then the recursion below is symmetric as well, and only the target cells in one half of the angular range have to be computed.
+
+\emph{The recursion.} Summing over $\Omega$, with the cell areas rounded down to doubles, gives a lower bound $\Psi_k^{\mathrm d}(t)$ for $\Psi_k(t)$, the exact value of the following recursion with the stored bounds. It runs over the increments, and its entries are indexed by the state of the pass of Lemma~\ref{lem:enc} and by the cells of the last two increments. The step for $z_1$ gives the entry $|Z_1|e^{-t\bar a_1(Z_1)}$ to the cell $Z_1$ and its state. The step for $z_2$ multiplies by $|Z_2|e^{-t\bar a_2(Z_1,Z_2)}$, and the step for $z_i$ with $i\ge3$ multiplies by $|Z_i|e^{-t\bar a_3(Z_{i-2},Z_{i-1},Z_i)}$, and each moves to the new state. The closing step for a given $k$ is merged with the step for $z_{k-1}$. For each pair of cells of the last two increments, it multiplies the partial sums of that step by the final values $\Lambda$ of the new states, and it then adds these $N_C^2$ numbers, first over the cells of $z_{k-2}$ and then over those of $z_{k-1}$; here $N_C=(\WNone+\WNtwo)\WNt$ is the number of cells. All terms are nonnegative.
+
+\emph{Rounding.} We evaluate the recursion in double precision and rescale each step by a power of $2$. The products $t\bar a_3$ are exact, because $t$ is a multiple of $1/8$ not above $6$ and $\bar a_3$ has single precision. The other products $t\bar a$ have a relative error at most $2^{-53}$, which changes the exponential by a relative error below $3\cdot10^{-15}$, since $t\bar a\le6\pi$. We use the assumption of Theorem~\ref{thm:main}(c), a relative error below $10^{-9}$ for the exponential function. The manual of glibc says that its test suite flags only errors above $9$ units in the last place~\cite[Section~19.7]{glibc}, which is a relative error below $2\cdot10^{-15}$. Suppose also that no product and no rescaled entry is subnormal or zero. Then each factor $|Z|e^{-t\bar a}$ has a relative error below $1.01\cdot10^{-9}$. Let $u=2^{-53}$. Each entry of a step is a sum of at most $103N_C$ nonnegative products, and in the closing step each term passes through at most $2N_C+206$ further additions. A sum of $n$ nonnegative terms has relative error at most $nu/(1-nu)$, so each step adds a relative error below $1.2\cdot10^{-9}$ and the closing step adds one below $3\cdot10^{-12}$. After at most $\Kmax-1$ steps the computed value $\tilde\Psi$ satisfies $(1-10^{-7})\tilde\Psi\le\Psi_k^{\mathrm d}(t)\le(1+10^{-7})\tilde\Psi$. The program uses the wider upper enclosure $(1+10^{-5})\tilde\Psi$, which also covers a mode that rounds the factors down to single precision; this mode was not used in the run. It is compiled without options that flush subnormal numbers to zero. We reran the computation of all $\tilde\Psi$ of the run below with counters added to its comparisons, which leave its arithmetic unchanged. The rerun reproduces every value $\tilde\Psi$ bit for bit and finds no subnormal or zero product and no subnormal rescaled entry. The function $\Psi_k^{\mathrm d}$ is a positive combination of exponentials in $t$, so it is nonincreasing and $\log\Psi_k^{\mathrm d}$ is convex. On each interval of the grid of step $1/8$ on $[0,6]$ we use three lower bounds for $\Psi_k^{\mathrm d}$: its value at the right endpoint, and the secant lines of $\log\Psi_k^{\mathrm d}$ through the left and through the right neighbouring interval, extended over the interval. The secants use the endpoints of the enclosures in the direction that keeps them below $\log\Psi_k^{\mathrm d}$. There is no left secant on the second interval and no right secant on the last one, and on the first interval we use only the value at its right end. We integrate each of these lower bounds exactly with the lower incomplete gamma function, after checking that the slope of the line is below $\pi$, and keep the largest integral. The part with $t>6$ is dropped.
+
+The triple tables are computed in slices on several machines, and the recursion for different values of $t$ runs on different machines that load all slices. The loading step checks that every triple is loaded exactly once and that all slices come from the same grid. All slices and all values $\tilde\Psi$ of the run come from one build of the program. A last step checks that the values $\tilde\Psi$ are present for every $k$ and every grid point and computes the $t$-integral. With these parameters the evaluation gives $\sum_{k=6}^{\Kmax}C_k\ge\LargeSum$.
+
+A second program, written from the specification of the bound without consulting the source of the first, computes the same bound with its own geometry, its own version of the pass of Lemma~\ref{lem:enc} and a recursion run twice, with rounding downward and upward. At the grid $\Wsecondgrid$ it gives $\sum_{k=6}^{\Kmax}C_k\ge\Wsecond$, against $\Wsecondmain$ for the first program, and its value is at least that of the first program for every $k$.
+
+A third program, written in the same way, evaluates a bound of the same form with sharper ingredients; it computes the geometry of the tables in MPFR arithmetic with explicit margins and the recursion and the $t$-integral with directed rounding. At the grids we compared, it too gives at least the value of the first program for every $k$. This is observed, not guaranteed, since it averages $u$ over $32$ Riemann subintervals where the first program uses $64$. At the grid $\Windgrid$ it gives $\sum_{k=6}^{\Kmax}C_k\ge\Wind$, and the first program gives $\Windmain$ at the same grid and step. The repository describes both programs in detail.
+
+The tests of the first program are also in Appendix~\ref{sec:checks}.
+
+\subsection{A simpler bound}\label{sec:level0}
+We also record a weaker bound, which is not used in Theorem~\ref{thm:main}. Because it factorizes completely, its evaluation is much simpler. It uses the area bound $A(y)\le\pi+\sum_{i=1}^{k-1}A_1(|z_i|)$, which follows from the proof of Lemma~\ref{lem:laplace} and compares each disk with the previous one only. If $|z_i|\le1$ for all $i$, then $H(z)$ contains the path $(1,2,\dots,k)$, so it is connected and its vertices $2,\dots,k-1$ have degree at least~$2$. The vertex $1$ has degree at least $2$ if $|z_1+z_2|\le1$, and the vertex $k$ if $|z_{k-2}+z_{k-1}|\le1$. So $\hat g(z)\ge\frac12(e_1+e_2)$ on this set, where $e_1$ and $e_2$ are the indicators of these two conditions. The argument of Lemma~\ref{lem:laplace} gives, for every $k\ge3$,
+\[
+C_k\ge\frac12\int_0^\infty t^{s-1}e^{-\pi t}\,m(t)^{k-3}\mathcal P(t)\,dt,
+\]
+where
+\[
+m(t)=\pi\int_0^1re^{-tA_1(r)}\,dr,\qquad\mathcal P(t)=\int_0^1\!\!\int_0^1r_1r_2\,e^{-t(A_1(r_1)+A_1(r_2))}\,\bigl(\pi-\vartheta(r_1,r_2)\bigr)^2\,dr_1\,dr_2,
+\]
+and $\vartheta(r_1,r_2)\in[0,\pi]$ is the arccosine of $(1-r_1^2-r_2^2)/(2r_1r_2)$ clamped to $[-1,1]$. Indeed, in polar coordinates $z_i=r_iu(\theta_i)$ with $\theta_i\in(-\pi/2,\pi/2)$, the condition $|z_1+z_2|\le1$ means $|\theta_1-\theta_2|\ge\vartheta(r_1,r_2)$, and the set of such $(\theta_1,\theta_2)$ has measure $(\pi-\vartheta(r_1,r_2))^2$. Hence the term $\frac12e_1$ contributes $\frac12m(t)^{k-3}\mathcal P(t)$ to the inner integral, because each of the increments $z_3,\dots,z_{k-1}$ ranges over the half disk and contributes the factor $m(t)$. The term $\frac12e_2$, which depends on $z_{k-2}$ and $z_{k-1}$, contributes the same.
+
+We evaluate this bound in ball arithmetic at $128$ bits, with the radial cells $[i/1000,(i+1)/1000]$. Since $A_1$ is increasing,
+\[
+\int_{i/1000}^{(i+1)/1000}re^{-tA_1(r)}\,dr\ \ge\ \frac{2i+1}{2\cdot1000^2}\,e^{-tA_1((i+1)/1000)}.
+\]
+For two radial cells $[a_1,b_1]$ and $[a_2,b_2]$ we split the range $[0,\pi]$ of $|\theta_1-\theta_2|$ into $2^{20}$ intervals of equal length and call such an interval with left endpoint $\phi$ \emph{inside} if $b_1^2+b_2^2+2\max(b_1b_2\cos\phi,\,a_1a_2\cos\phi)\le1$. Then $|z_1+z_2|\le1$ on the whole product of the cells and the interval. Since this test is monotone in $\phi$, the inside intervals form a final segment $[\phi^*,\pi]$, found by bisection, and on the two radial cells the angular measure is at least $(\pi-\phi^*)^2$. This gives lower bounds $\underline m(t)\le m(t)$ and $\underline{\mathcal P}(t)\le\mathcal P(t)$ that are decreasing in $t$. On the grid $t_j=j\,\Delta t$, where $\Delta t$ is the double nearest to $0.002$, we bound the integral over $[t_{j-1},t_j]$ from below by $\underline m(t_j)^{k-3}\underline{\mathcal P}(t_j)$ times the exact integral of $t^{s-1}e^{-\pi t}$ over this interval, given by the lower incomplete gamma function. The part beyond the last grid point, $6000\,\Delta t\approx12$, is dropped. The sum of the resulting lower bounds for $k=6,\dots,30$ is $\sum_{k=6}^{30}C_k\ge\LevelZero$.
+
+\subsection{Proof of Theorem~\ref{thm:main}}
+Part~(a) is proved in Section~\ref{sec:proof5}. Part~(b) is proved in Lean from three statements that are proved in Section~\ref{sec:box} or cited as Theorem~\ref{thm:dc} (Section~\ref{sec:leanstat}). Under the assumption of part~(c), Section~\ref{sec:weval} proves $\sum_{k=6}^{\Kmax}C_k\ge\LargeSum$; hence, by Theorem~\ref{thm:dc} with $K=\Kmax$,
+\[
+\beta\ge\frac58+\CThree+\CFour+\CFive+\LargeSum=\SumBound>\LBMAIN.
+\]
+
+\section{Formal verification}\label{sec:lean}
+
+In the Lean~4 proof assistant \cite{Lean4}, with the Mathlib library \cite{Mathlib}, we proved parts~(a) and~(b) of Theorem~\ref{thm:main} and two weaker bounds for $\beta$, in three proofs. The \emph{second native proof} gives parts~(a) and~(b), and the \emph{first native proof} gives $\beta\ge\LeanNbound$; both evaluate their finite checks by compiled code. The \emph{kernel-only proof} gives $\beta\ge\LeanKbound$, and Lean's kernel evaluates all of its checks. Part~(c) rests on the evaluation of Section~\ref{sec:weval}, not on the formal proofs: the bound for $C_6+\dots+C_{\Kmax}$ on the grid $(\WNone,\WNtwo,\WNt)$ is not formalized.
+
+\subsection{The statements}\label{sec:leanstat}
+The formal statements use Mathlib's definitions. Points are elements of $\R\times\R$, with Lebesgue measure. The number $C_k$ is defined by the formula of Theorem~\ref{thm:dc} as a Lebesgue integral with values in $[0,\infty]$, with $y_1=0$. In it, $A(y)$ is the measure of the union of the closed unit disks centred at the points, the vertices $i\ne j$ of $G_1(y)$ are adjacent if $|y_i-y_j|\le1$, and $g(G)=q(G)-D(G)$ if $G$ is connected and $g(G)=0$ otherwise, with $q$ and $D$ as in Section~\ref{sec:integrals}. A real number $\beta$ satisfies \lean{IsBHHConstant}~$\beta$ if, for every sequence $X_0,X_1,\dots$ of independent random points of $\R^2$ with the uniform distribution on $[0,1]^2$, on any probability space, the length of the shortest closed tour through $X_0,\dots,X_{n-1}$ divided by $\sqrt n$ tends to $\beta$ almost surely. The theorem of Beardwood, Halton and Hammersley, which says that such a $\beta$ exists, is not formalized; the statements below concern every real number with this property.
+
+The statements have three hypotheses, which are not formalized. The first, \lean{GreenFormula}, is Green's formula~\eqref{eq:green} for every configuration of distinct points. The second, \lean{VertexLemmaSeg}, is Lemma~\ref{lem:vertex} together with Remark~\ref{rem:prune} and~\eqref{eq:grad}, with the quantities of the box replaced by bounds that hold along the segment from its centre~$c$ to~$y$. The proof of Lemma~\ref{lem:vertex} uses only this segment, so it proves this statement as well. The third, \lean{DongCaoK30}~$\beta$, is the inequality $\beta\ge5/8+\sum_{k=3}^{30}C_k$ of Theorem~\ref{thm:dc}, in $[0,\infty]$, as a premise on~$\beta$. The bounds for the numbers $C_k$ assume the first two hypotheses, and the bounds for $\beta$ all three. Each bound for $\beta$ is stated in two forms: for every real $\beta$ with \lean{DongCaoK30}~$\beta$, and for every $\beta$ with \lean{IsBHHConstant}~$\beta$, assuming \lean{DongCaoK30}~$\beta$ for every such $\beta$. Theorem~\ref{thm:dc} is needed only to pass to the constant of the Beardwood--Halton--Hammersley theorem. Appendix~\ref{app:leanstat} gives the hypotheses and the types of the theorems as they read in the Lean files.
+
+\subsection{The proofs}
+The bound of the first native proof is $\LeanNbound=5/8+\CThree+\CFour+\LeanCFive+\WindowTwo$. For $C_3$ and $C_4$ it proves the bounds of Theorem~\ref{thm:main}, with the subdivisions of Table~\ref{tab:runs}. For $C_5$ it uses the subdivision with $\mathrm{tol}=3\cdot10^{-13}$ and the values of $W_0$, $W_f$ and $N$ of Table~\ref{tab:runs}, and it proves the weaker bound $C_5\ge\LeanCFive$. For $6\le k\le30$ it uses the bound of Section~\ref{sec:large} with a window of two places instead of three: the window graph has the edges $\{j,l\}$ of $G$ with $|j-l|\le2$, and the area is bounded by $\pi+A_1(|z_1|)+\sum_{i=2}^{k-1}A_2(z_{i-1},z_i)$. A Lean program evaluates this bound on the polar cells of Section~\ref{sec:weval}, with $60$ and $30$ radial steps on $[0,1]$ and $[1,2]$ and $144$ angular steps, at the points $t=j/16$ with $1\le j\le96$, and its correctness proof is of the same kind as that of the window of three places below; this yields $\sum_{k=6}^{30}C_k\ge\WindowTwo$.
+
+For $k=3,4,5$, a program written in Lean subdivides the box $X_k$ as in Section~\ref{sec:search}, with these parameters. On every leaf it computes a lower bound by the case distinction of Section~\ref{sec:search}, from Propositions~\ref{prop:interior}--\ref{prop:coincident}, in fixed-point interval arithmetic with exact integers. The decisions of the subdivision are taken in floating point, as in the search program, and some approximate values, such as candidates for the values of $\arcsin$, are taken from floating point as well. None of them needs to be correct. A Lean proof shows, from \lean{GreenFormula} and \lean{VertexLemmaSeg}, that for every box the computed value, divided by $2^{257}$, is at most the integral of Lemma~\ref{lem:domain} over the intersection of the box with $D_k$, and that the sum of these values over the leaves in a range of initial boxes is at most the integral over the intersection of the union of these boxes with $D_k$. The inequality $C_k\ge\kappa_k\int_{D_k\cap X_k}r_2\,g(G_1(y))\,\varphi(A(y))\,dx$ of Lemma~\ref{lem:domain}, the direction used by the bounds, is proved in Lean as well, and the tables of $g$ are checked in Lean. The program runs in parts, each over a range of initial boxes, and each part is a theorem stating that the sum over its range is at least a given integer, computed beforehand by a C program from sums over the same initial boxes and reduced by a relative margin of $10^{-9}$. Further theorems add up the ranges; their types force the ranges to be contiguous and to cover all initial boxes, and the ranges of initial boxes without a part, on which the sums of the C program are $0$, receive the lower bound $0$, which is valid because the computed value of every box is nonnegative.
+
+In the first native proof these checks are evaluated by \lean{native_decide}, which executes compiled code. The trusted base then includes the Lean compiler, the C compiler that it uses and the Lean runtime. Besides the standard axioms \lean{propext}, \lean{Classical.choice} and \lean{Quot.sound}, its theorems depend on one auxiliary axiom for each compiled check that they use; the README of the repository lists them.
+
+The second native proof evaluates the same program on the subdivisions of Table~\ref{tab:runs} for $k=3$, $4$ and $5$, so it proves the bounds of Theorem~\ref{thm:main} for $C_3$, $C_4$ and $C_5$. Its parts and the theorems that add them up are formed as in the first native proof, and for $k=3$ and $k=4$ they are the same parts. For $k=5$ it has parts of its own, and again the ranges of initial boxes without a part, on which the sums of the C program are $0$, receive the lower bound $0$. The second native proof uses \lean{native_decide} in the same way, with the same trusted base.
+
+For the window of three places, the second native proof evaluates the bound of Section~\ref{sec:large} on the grid $(20,10,48)$. Here a Lean program computes the pair and triple entries of the tables of Section~\ref{sec:weval} in exact fixed-point interval arithmetic and runs the recursion with rounding downward and upward. It checks given enclosures of $\Psi_k^{\mathrm d}(t_j)$ for $3\le k\le\Kmax$ at the points $t_j=j/8$ with $1\le j\le48$, and it integrates over $0\le t\le6$, which gives $\sum_{k=6}^{\Kmax}C_k\ge\LeanWThree$ and, with the bounds for $C_3$, $C_4$ and $C_5$, $\beta\ge5/8+\CThree+\CFour+\CFive+\LeanWThree\ge\LeanWbound$. The enclosures were computed beforehand by a variant of the first program of Section~\ref{sec:weval}, run with the edge classes of the triple entries of the Lean program, and they are not trusted: the check either confirms each of them or fails. Its correctness proof contains the analogues of Lemmas~\ref{lem:sorted}--\ref{lem:laplace}, the soundness of the entries of the tables and of the recursion, the discretization of Section~\ref{sec:weval} with Jensen's inequality on the products of cells, and the bound for the integral over $t$; the part with $t>6$ is dropped, which lowers the bound. The window check, the integral over $t$, a nondegeneracy check of the grid and a positivity check are evaluated by \lean{native_decide}, as four further compiled checks.
+
+The kernel-only proof bounds only $C_3$, $C_4$ and $C_5$, and it uses $C_k\ge0$ for $6\le k\le30$. For $C_3$ it uses the subdivision of Table~\ref{tab:runs} and so, like the native proofs, proves the bound $C_3\ge\CThree$ of Theorem~\ref{thm:main}. Its subdivisions for $C_4$ and $C_5$ are coarser: $512$ initial boxes with $(W_0,W_f,\mathrm{tol})=(0.4,\,0.002,\,3\cdot10^{-10})$ for $C_4$, which yield $C_4\ge\LeanKCFour$, and $4{,}194{,}304$ initial boxes with $(W_0,W_f,\mathrm{tol})=(0.6,\,0.0005,\,3\cdot10^{-10})$ for $C_5$, which yield $C_5\ge\LeanKCFive$. So $5/8+C_3+C_4+C_5\ge\LeanKbound$. The leaf bounds are computed by the same program as in the native proofs, but all auxiliary values, including the candidates for the values of $\arcsin$, are computed in integer arithmetic, so that the kernel evaluates no floating-point operation; the subdivision trees, whose decisions are taken in floating point, enter only as recorded codes. For $C_5$, Lean's kernel also checks the table of $g$ for five points, and the integer values of $\cos$ and $\sin$ at the points of the angular grid are written into the files as a table, which theorems proved by \lean{decide +kernel} check entry by entry against their computation. A Lean program cuts the subdivision trees into pieces and records a claimed lower bound for every piece, and a script turns these records into Lean files. In theorems proved by \lean{decide +kernel}, each covering at most $25$ leaves for $C_3$ and $C_4$ and at most $12$ for $C_5$, Lean's kernel evaluates the leaf bounds and checks the claims. For each initial box that is cut into pieces, one further theorem of this kind checks that the pieces are the parts of the subdivision tree of the box and that the top part of the tree, with the claimed values of the pieces, gives at least the value claimed for the box; the other initial boxes, whose computed values are $0$, are again bounded below by $0$, as in the native proofs. From these checks, a Lean proof that holds for every list of pieces that passes them derives the bounds for $C_3$, $C_4$ and $C_5$, so the cut program, the script and the generated files need not be trusted. The kernel-only theorems depend only on the three standard axioms. Their bound is larger than $5/8+0.011135+0.005040+0.001015=0.64219$, the bound given by the values of Dong and Cao for $C_3$, $C_4$ and $C_5$.
+
+
+The Lean source files are in the directory \texttt{lean/} of the repository given under Data availability. Its README gives the versions of Lean and Mathlib, the build times and further checks of the three proofs, among them checks of the exported proofs by two other implementations of Lean's kernel, nanoda \cite{nanoda} and lean4lean \cite{Car24}. Compiled files are not included, so rebuilding a native proof evaluates all of its compiled checks again.
+
+
+\section{Limits of the method}\label{sec:limits}
+
+This section collects numerical observations; the proofs do not use them.
+
+We estimate $C_k$ with two Monte Carlo programs that sample configurations along random trees, in the spirit of the importance sampling of Dong and Cao \cite[Section~3.4]{DC26}, with exact union areas and exact values of $p$. One of them gives $C_3=\MCThree(7)$, $C_4=\MCFour(3)$, $C_5=\MCFive(3)$ and $C_6=\MCSix(4)$, where the digits in parentheses are the standard error in the last digit, and the other agrees to within about $1.2$ standard errors. So, numerically, the framework with $K=5$ cannot give more than $5/8+C_3+C_4+C_5\approx0.6470$, and with $K=6$ it cannot give more than about $0.6496$. The sampling bounds of Dong and Cao for $k\le10$ \cite[Section~3.4]{DC26} suggest that the framework with $K=10$ gives more than $0.6536$.
+
+Among $C_3$, $C_4$ and $C_5$, most of the remaining loss is in $C_5$, on boxes with undetermined edges. For $k=6$ the integral is nine-dimensional, and its mass is spread over many boxes with small integrands, so we did not subdivide it. The bound of Section~\ref{sec:large} gives $C_6\ge\WCsix$, which is $\WPctSix\%$ of the Monte Carlo estimate. Most of the loss comes from $\hat g$ and the window-three area bound: by Monte Carlo, the integral with $\hat g$ in place of $g$ and the window-three area bound at exact positions is about $0.00195$ for $k=6$, and the discretization lowers it to the certified value. At the grid $(20,10,48)$, deciding the undetermined edges by sample points instead of dropping them raises the sum over $6\le k\le\Kmax$ from $0.00304$ to $0.00433$, while replacing the area bounds by sample means raises it only to $0.00340$. At this grid the undetermined edges thus cost about three and a half times as much as the area bounds. For $6\le k\le10$ the bound is a decreasing share of Monte Carlo estimates of the integrals of Theorem~\ref{thm:dc} with $p-n_1/2$ in place of $g$, which equal $C_k$ for $k\le6$ and are at least $C_k$ in general. A larger bound would therefore have to come first from the boxes with undetermined edges (for $C_5$ and in the bound for $k\ge6$), and then from a subdivision of the integral for $k=6$.
+
+\appendix
+
+\section{Tests of the programs}\label{sec:checks}
+We tested the checker against the float values of the search program and with a self-test, with deliberate errors in shorter runs, against separately written programs, which also estimate $C_3,\dots,C_6$ by Monte Carlo integration (Section~\ref{sec:limits}), and by reruns on other machines. We tested the first program for $k\ge6$ against sampled means of the entries of its tables and with deliberate errors. No test found a violation, every deliberate error raised the certified value, and the reruns reproduced the certified values, the leaf counts and the exact integers of the runs. The repository describes each test and its result.
+
+\section{The formal statements}\label{app:leanstat}
+The hypotheses of Section~\ref{sec:leanstat} read as follows in the Lean files.
+\begingroup\footnotesize
+\begin{verbatim}
+def GreenFormula : Prop :=
+  ∀ (k : ℕ) (y : Fin k → Pt), (∀ i j, i ≠ j → y i ≠ y j) → unionArea y = greenArea y
+\end{verbatim}
+\endgroup
+\noindent Here \lean{unionArea y} is $A(y)$, and \lean{greenArea y} is the right-hand side of~\eqref{eq:green}, where the set $E_i(y)$ is represented by the $t\in[0,2\pi)$ such that $y_i+u(t)$ has distance at least $1$ from every $y_j$ with $j\ne i$.
+\begingroup\footnotesize
+\begin{verbatim}
+def VertexLemmaSeg : Prop :=
+  ∀ (k : ℕ) (c y : Fin k → Pt) (eps : Fin k → ℝ) (dlo dhi : Fin k → Fin k → ℝ)
+    (first : Fin k → Fin k → Bool),
+    (∀ i j, i < j → 0 < dlo i j) →
+    (∀ i j, i < j → ∀ t ∈ Icc (0 : ℝ) 1,
+        dlo i j ≤ edist2 (segPt (c i) (y i) t) (segPt (c j) (y j) t) ∧
+        edist2 (segPt (c i) (y i) t) (segPt (c j) (y j) t) ≤ dhi i j) →
+    (∀ i j, i < j → first i j = true → dhi i j < 2) →
+    (∀ i, enorm2 (y i - c i) ≤ eps i) →
+    |unionArea y - unionArea c
+        - ∑ i, ((greenGrad c i).1 * (y i - c i).1 + (greenGrad c i).2 * (y i - c i).2)|
+      ≤ vertexRemSeg c y eps dlo dhi first
+\end{verbatim}
+\endgroup
+\noindent Here $c$ takes the place of the centre of a box, \lean{segPt (c i) (y i) t} is $c_i+t(y_i-c_i)$, and \lean{edist2} and \lean{enorm2} are the Euclidean distance and norm. For $i<j$, \lean{dlo i j} and \lean{dhi i j} are bounds $d^-_{ij}>0$ and $d^+_{ij}$ for the distance between the $i$-th and the $j$-th point of $c+t(y-c)$ for every $t\in[0,1]$; the positivity of $d^-_{ij}$ is a premise, as in Lemma~\ref{lem:vertex}, and keeps the points distinct along the segment. The number \lean{eps i} is a bound $\varepsilon_i$ for $|y_i-c_i|$. The vector \lean{greenGrad c i} is the right-hand side of~\eqref{eq:grad} at $c$. The number \lean{vertexRemSeg c y eps dlo dhi first} is $\varrho(\delta)$ of Lemma~\ref{lem:vertex} with $\delta_i=y_i-c_i$, with $T_{ij}$ as in~\eqref{eq:T}, where \lean{first i j} selects the first choice of $(\lambda_{ij},\mu_{ij})$, which is allowed only if \lean{dhi i j} $<2$, and with $\nu_{ij}$ given by the test of Remark~\ref{rem:prune}, or $\nu_{ij}=2$ if the circles of radius $1$ around $c_i$ and $c_j$ do not meet in two points.
+\begingroup\footnotesize
+\begin{verbatim}
+def DongCaoK30 (β : ℝ) : Prop :=
+  (5 / 8 : ℝ≥0∞) + ∑ k ∈ Finset.Icc 3 30, C k ≤ ENNReal.ofReal β
+\end{verbatim}
+\endgroup
+
+The theorem \lean{BHH.mainBoundsV3_N} of the second native proof has the type
+\begingroup\footnotesize
+\begin{verbatim}
+def MainBoundsV3 : Prop :=
+  GreenFormula → VertexLemmaSeg →
+    ENNReal.ofReal (117130195 / 10 ^ 10) ≤ C 3 ∧
+    ENNReal.ofReal (63707166 / 10 ^ 10) ≤ C 4 ∧
+    ENNReal.ofReal (35280362 / 10 ^ 10) ≤ C 5
+\end{verbatim}
+\endgroup
+\noindent so it states the bounds of Theorem~\ref{thm:main}(a) under \lean{GreenFormula} and \lean{VertexLemmaSeg}.
+
+The same proof has the theorem \lean{W3Prod20.w3_bound_lit}, whose type is \lean{W3BoundAt (30379504113 / 10000000000000)}, and the theorem \lean{BHH.betaBoundV3At_N_w20}, whose type is \lean{BetaBoundV3At (6496497227 / 10 ^ 10)}, where
+\begingroup\footnotesize
+\begin{verbatim}
+def W3BoundAt (w : ℝ) : Prop :=
+  GreenFormula → VertexLemmaSeg → ENNReal.ofReal w ≤ ∑ k ∈ Finset.Icc 6 22, C k
+
+def BetaBoundV3At (b : ℝ) : Prop :=
+  GreenFormula → VertexLemmaSeg → ∀ β : ℝ, DongCaoK30 β → b ≤ β
+\end{verbatim}
+\endgroup
+\noindent and the theorem \lean{BHH.bhhBetaBoundV3At_N_w20}, of type \lean{BHHBetaBoundV3At (6496497227 / 10 ^ 10)}, which states $\beta\ge\LeanWbound$ for every $\beta$ with \lean{IsBHHConstant}~$\beta$, with the three hypotheses of \lean{BHHBetaBoundV2} below.
+
+From \lean{MainBoundsV3} and a hypothesis \lean{W3Bound}, which states that \lean{GreenFormula} and \lean{VertexLemmaSeg} imply $\sum_{k=6}^{\Kmax}C_k\ge\WindowThree$ and is not proved in Lean, the theorems \lean{betaBoundV3_N_of} and \lean{bhhBetaBoundV3_N_of} derive $\beta\ge\SumBound$, in the forms \lean{BetaBoundV3At} and \lean{BHHBetaBoundV3At}.
+
+The theorems \lean{BHH.betaBoundV2_N} and \lean{BHH.bhhBetaBoundV2_N} of the first native proof have the following types.%
+\begingroup\footnotesize
+\begin{verbatim}
+def BetaBoundV2 : Prop :=
+  GreenFormula → VertexLemmaSeg → ∀ β : ℝ, DongCaoK30 β → (6491725104 / 10 ^ 10 : ℝ) ≤ β
+
+def BHHBetaBoundV2 : Prop :=
+  GreenFormula → VertexLemmaSeg → (∀ β : ℝ, IsBHHConstant β → DongCaoK30 β) →
+    ∀ β : ℝ, IsBHHConstant β → (6491725104 / 10 ^ 10 : ℝ) ≤ β
+\end{verbatim}
+\endgroup
+\noindent The conclusion of \lean{BetaBoundV2} is equivalent to $5/8+\sum_{k=3}^{30}C_k\ge\LeanNbound$ in $[0,\infty]$ (for one direction take $\beta=5/8+\sum_{k=3}^{30}C_k$), so \lean{BetaBoundV2} says that \lean{GreenFormula} and \lean{VertexLemmaSeg} imply this inequality. The first native proof also shows, with the standard axioms only, that $C_k<\infty$ for every $k\ge3$. Theorem~\ref{thm:dc} enters \lean{BHHBetaBoundV2} as its third hypothesis. The theorems \lean{BHH.betaBoundK3} and \lean{BHH.bhhBetaBoundK3} of the kernel-only proof have the same types with \lean{6440396 / 10 ^ 7} in place of \lean{6491725104 / 10 ^ 10}, and its theorem \lean{BHH.mainBoundsK3} states, under \lean{GreenFormula} and \lean{VertexLemmaSeg}, the bounds $C_3\ge\CThree$, $C_4\ge\LeanKCFour$ and $C_5\ge\LeanKCFive$.
+
+\FloatBarrier
+\section*{Data availability}
+The search program, the checker, the program that compares $p$ and $q$, and the logs of the checker runs are archived at \href{https://doi.org/\ZENODODOI}{doi:\ZENODODOI} and available in the repository \href{\REPOURL}{github.com/tejasvi/bhh-constant-bound-v8} (tag~v9). So are the programs of Section~\ref{sec:large}, with their logs and negative controls, and the Lean files of Section~\ref{sec:lean}. The records of the cut program, from which the files of the kernel-only proof are generated, are the three files \texttt{k3\_all.txt.xz}, \texttt{k4\_all.txt.xz} and \texttt{c5\_all.txt.xz} of the record \href{https://doi.org/\ZENODODOI}{doi:\ZENODODOI}; they are not in the repository. The checker needs a C compiler with OpenMP and FLINT version~3. The archive also contains the separately written programs used for the tests in Appendix~\ref{sec:checks} and the Monte Carlo program that gives the values of $C_3,\dots,C_6$ quoted in Section~\ref{sec:limits}. These programs are not part of the proof.
+
+\section*{Use of AI tools}
+Generative AI tools were used to find and prove the results, to write the programs and the Lean formalization, and to draft the text. The author reviewed the arguments, the programs and the formal statements, and takes responsibility for the content.
+
+\begin{thebibliography}{99}
+\bibitem{BHH59} J.~Beardwood, J.~H.~Halton and J.~M.~Hammersley, \emph{The shortest path through many points}, Proc. Cambridge Philos. Soc. \textbf{55} (1959), 299--327.
+\bibitem{Car24} M.~Carneiro, \emph{Lean4Lean: verifying a typechecker for Lean, in Lean}, arXiv:2403.14064, 2024.
+\bibitem{Coo12} W.~Cook, \emph{In Pursuit of the Traveling Salesman: Mathematics at the Limits of Computation}, Princeton University Press, Princeton, 2012.
+\bibitem{DC26} Z.~Dong and J.~Cao, \emph{New bounds for the Euclidean TSP constant}, arXiv:2610.02809v1, 2026.
+\bibitem{FLINT} The FLINT team, \emph{FLINT: Fast Library for Number Theory}, version 3, \url{https://flintlib.org}.
+\bibitem{glibc} The GNU C Library Reference Manual, Section~19.7, \emph{Errors in Math Functions}, \url{https://sourceware.org/glibc/manual/}.
+\bibitem{GJ20} J.~Gaudio and P.~Jaillet, \emph{An improved lower bound for the traveling salesman constant}, Oper. Res. Lett. \textbf{48} (2020), 67--70.
+\bibitem{Joh17} F.~Johansson, \emph{Arb: efficient arbitrary-precision midpoint-radius interval arithmetic}, IEEE Trans. Comput. \textbf{66} (2017), 1281--1292.
+\bibitem{JMR96} D.~S.~Johnson, L.~A.~McGeoch and E.~E.~Rothberg, \emph{Asymptotic experimental analysis for the Held--Karp traveling salesman bound}, in: Proc. 7th ACM-SIAM Symposium on Discrete Algorithms, 1996, 341--350.
+\bibitem{Mathlib} The mathlib Community, \emph{The Lean mathematical library}, in: Proc. 9th ACM SIGPLAN Int. Conf. Certified Programs and Proofs (CPP 2020), 2020, 367--381.
+\bibitem{Lean4} L.~de~Moura and S.~Ullrich, \emph{The Lean 4 theorem prover and programming language}, in: Automated Deduction -- CADE 28, Lecture Notes in Comput. Sci. \textbf{12699}, Springer, 2021, 625--635.
+\bibitem{nanoda} \lean{nanoda_lib}, a type checker for Lean~4, \url{https://github.com/ammkrn/nanoda_lib}.
+\bibitem{Ste15} S.~Steinerberger, \emph{New bounds for the traveling salesman constant}, Adv. in Appl. Probab. \textbf{47} (2015), 27--36.
+\bibitem{Tao26} T.~Tao et al., \emph{Optimization constants in mathematics}, \url{https://teorth.github.io/optimizationproblems/}, 2026.
+\end{thebibliography}
+
+\end{document}

@@ -3,8 +3,22 @@
 We wrote the programs in this directory separately from the search program, the checker and the window-3
 evaluator. They test components of the checker and its leaf bounds against their own implementations, estimate the
 true values of `C_k` by Monte Carlo integration, and recompute the window-3 bound for `k >= 6` (section 4). They are
-not part of the proof, which rests on the runs of the checker and of the window-3 evaluator alone. Section 4.5 and
-Table 2 of the paper summarise their results, and Section 6 uses the Monte Carlo estimates.
+not part of the proof, which rests on the runs of the checker and of the window-3 evaluator alone. Appendix A of the
+paper and the table below summarise their results, and Sections 1 and 7 of the paper use the Monte Carlo estimates.
+
+The components of the checker tested against these programs, and the numbers of test inputs (Table 2 of version 8 of the
+paper; lemma and section numbers are those of the paper):
+
+| Component | Test inputs |
+|---|---|
+| Table of `g` | all edge sets, k <= 6 |
+| `g_min`, `g_max` and `g_sigma` | about 12,000 random states of the edges |
+| Union areas | 16,000 configurations |
+| Unions of enlarged disks | 12,000 configurations |
+| Upper bound of Lemma 3.1 with `R_max`; Lemma 3.3 | about 4,400 boxes |
+| Probability bounds of Section 3.5 | 1,200 pairs of rectangles |
+| Distribution functions | 200,000 cases |
+| The function `Phi` | 80,000 cases |
 
 Like the checker, the programs number the points from 0: `y_0 = 0`, `y_1 = (r_2, 0)` and `y_j = (xi_j, eta_j)` for
 `j >= 2` are the paper's `y_1`, `y_2` and `y_{j+1}`.
@@ -268,3 +282,35 @@ At 20/10/48 this program's value is at least that of the main program (`large/wi
 comment-stripped diff is empty. The 20/10/48 log and the Monte Carlo logs come from that copy. The 10/5/24 log, the
 automaton test and `geomtest.txt` were rerun on the shipped files and reproduce the earlier copy's output exactly, apart
 from the times.
+
+## 5. Tests that Appendix A of the paper summarizes
+
+Appendix A of version 9 of the paper summarizes the tests below; earlier versions gave them in full. Section, proposition and
+table numbers refer to version 9 of the paper.
+
+- **Against the search program.** The checker compares every rigorous leaf value with the float value of the search
+  program (Section 4.4). Raising all float values by 1% is caught by this comparison. A self-test checks the union areas,
+  the areas of unions of enlarged disks and the distribution functions of the checker against the float code, its union
+  areas and the probability bounds of Section 3.5 against Monte Carlo estimates, and its table of `g` against that of the
+  search program.
+- **With deliberate errors.** To see that each ingredient affects the result, we made shorter runs of the checker, with
+  coarser parameters, after introducing one of the following errors: (i) `g` raised by 1/2 on every connected graph;
+  (ii) Gamma(k + 1/2) in place of Gamma(k - 1/2) in kappa_k; (iii) the remainder rho set to zero; (iv) undetermined edges
+  treated as present; (v) all pairs of edges treated as independent; (vi) f^- in place of f^+; (vii) the order constraint
+  ignored; (viii) the disks of Proposition 3.8 not enlarged. Each error raised the certified value.
+- **Against separately written programs.** Sections 1 to 3 above: the components of the checker were tested against the
+  corresponding parts of the separately written programs, and the bounds of 5,998 and 2,626 leaves of the runs of Table 1
+  for k = 3 and k = 4, and of 1,317 leaves of a run for k = 5 with tol = 3e-13 and otherwise the parameters of Table 1,
+  were compared with the integrals over these leaves, computed by Gauss-Legendre quadrature or Monte Carlo integration;
+  none of these tests found a violation.
+- **Reruns.** To check reproducibility, we reran the checker on other machines for k = 3 and k = 4, which gave the same
+  certified values and leaf counts, and for k = 5 we reran 26 randomly chosen ranges, which contain a quarter of the
+  scored leaves, each as two halves; the leaf counts and the exact integers of the halves add up to those of the original
+  ranges.
+- **The programs for k >= 6.** A test compares 3,000 random pair entries and 3,000 random triple entries of the tables of
+  Section 5.4 at the grid (30,15,72) with means over 2,000 uniform samples each, and checks the edges declared present at
+  2,000 further samples on the boundaries of the cells. No bound lies more than five standard errors on the wrong side of
+  its mean, and no sampled point contradicts an edge declared present. As for the checker, we also ran the first program
+  with deliberate errors at the grids (10,5,24) and (20,10,48), namely (i) a-bar_3 multiplied by 0.97, (ii) the edge
+  {i+1, i-2} decided at the centres of the cells, (iii) the edge {i+1, i-1} decided at the centres of the cells, and (iv)
+  the factor 1/2 dropped; again each error raised the value.

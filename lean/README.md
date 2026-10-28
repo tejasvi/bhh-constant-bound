@@ -1,4 +1,4 @@
-# Lean 4 formalization (A lower bound of 0.6508 for the Beardwood-Halton-Hammersley constant)
+# Lean 4 proofs of lower bounds for the Beardwood-Halton-Hammersley constant
 
 * `native_v3/`: the bounds C_3 >= 0.0117130195, C_4 >= 0.0063707166 and C_5 >= 0.0035280362 of Theorem 1.1 of the
   paper, the window-3 bound C_6 + ... + C_22 >= 0.0030379504113 on the grid (20,10,48), and from them

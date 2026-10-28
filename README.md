@@ -1,7 +1,7 @@
-# A lower bound of 0.6508 for the Beardwood-Halton-Hammersley constant
+# Lower bounds for the Beardwood-Halton-Hammersley constant
 
-Programs, logs and the Lean formalization for the paper *A lower bound of 0.6508 for the Beardwood-Halton-Hammersley
-constant* by Tejasvi Singh Tomar (doi:10.5281/zenodo.23602653). They are archived at doi:10.5281/zenodo.23602654.
+Programs, logs and the Lean formalization for the paper *Lower bounds for the Beardwood-Halton-Hammersley constant*
+by Tejasvi Singh Tomar (doi:10.5281/zenodo.23716094). They are archived at doi:10.5281/zenodo.23716095.
 Earlier versions are listed at the end.
 
 ## Theorem
@@ -19,8 +19,11 @@ degree 1. On larger connected graphs, `g = q - n_1/2`, with their lower bound `q
 
     C_3 >= 0.0117130195,   C_4 >= 0.0063707166,   C_5 >= 0.0035280362,   C_6 + ... + C_22 >= 0.0042404631,
 
-and hence `beta >= 5/8 + 0.0117130195 + 0.0063707166 + 0.0035280362 + 0.0042404631 = 0.6508522354`. The previous lower
-bound was 0.6421 (Dong and Cao).
+and hence `beta >= 5/8 + 0.0117130195 + 0.0063707166 + 0.0035280362 + 0.0042404631 = 0.6508522354`. The bound for
+`C_6 + ... + C_22`, and with it this bound for `beta`, assumes that the exponential function of the C library of the
+run (glibc 2.41) has a relative error below 1e-9 (Theorem 1.1(c) and Section 5.4 of the paper). Without this
+assumption, the Lean proofs below give `beta >= 0.6496497227` (Theorem 1.1(b)). The previous lower bound was 0.6421
+(Dong and Cao).
 
 The directory `lean/` holds Lean 4 proofs (Section 6 of the paper). Two of them have checks evaluated by compiled code
 (`native_decide`). One proves the bounds for `C_3`, `C_4` and `C_5` of the theorem and a bound for the terms with 6 <= k
@@ -65,6 +68,7 @@ For 6 <= k <= 22 (Section 5 of the paper):
 
 | Path | Content |
 |---|---|
+| `paper/main.tex` | the LaTeX source of the paper, in one file |
 | `checker/chk_ck14.c` | the checker (C, OpenMP, FLINT ball arithmetic) |
 | `search/box_ck14.c` | the search program (double precision; not part of the proof) |
 | `checks/pq_check.py` | enumeration showing that `p` equals the lower bound `q` of Dong and Cao for connected graphs with at most six vertices |
@@ -270,8 +274,8 @@ Mathlib commit c55e6e786f49 (`lean-toolchain`, `lake-manifest.json`).
   `C_5 >= 0.0035280362` of the theorem. The second is `W3Prod20.w3_bound_lit : W3BoundAt (30379504113 / 10000000000000)`
   in `W3Prod20/Final.lean`, which states `C_6 + ... + C_22 >= 0.0030379504113` for the window-3 bound on the grid
   (20,10,48). For `C_3` and `C_4` the proof uses the same 62 and 1,142 ranges of initial boxes as `lean/native/`. For
-  `C_5` it uses the subdivision of Table 1 of the paper, with claims on 4,457 ranges, and the other 1,613 ranges, on
-  which the sums of the C program are 0, receive the bound 0. The window-3 check takes as input enclosures of the values
+  `C_5` it uses the subdivision of Table 1 of the paper, with claims on 4,457 ranges, and the other 1,613 ranges, which
+  contain 3,753,176 of the 4,194,304 initial boxes and on which the sums of the C program are 0, receive the bound 0. The window-3 check takes as input enclosures of the values
   of the recursion and confirms every one of them, so these need not be trusted. They were computed by the C evaluator
   in `provenance/w3/`, which is the window-3 program `large/window3/src/w3_arb_093c0f64.c` with hooks that write these
   values, and `provenance/w3/regen_claims.sh` regenerates them (`provenance/w3/RECIPE.md`). The two theorems depend on
@@ -290,9 +294,11 @@ Mathlib commit c55e6e786f49 (`lean-toolchain`, `lake-manifest.json`).
   `DongCaoK30 beta` satisfies `beta >= 0.6491725104 = 5/8 + 0.0117130195 + 0.0063707166 + 0.0034034701 + 0.0026853042`.
   The bound for `C_5` comes from the subdivision with `EPS = 3e-13` (tol in the paper) and otherwise the values of `W0`,
   `WF` and `N` of Table 1 of the paper, and the last term bounds `C_6 + ... + C_30` with the window of two places
-  described in Section 6.2 of the paper. The proof depends on `propext`, `Classical.choice`, `Quot.sound` and 5,536
+  described in Section 6.2 of the paper. A Lean program computes the tables of this bound in fixed-point interval
+  arithmetic and its recursion with directed rounding, checks given enclosures of the values of the recursion at the
+  points t = j/16 with 1 <= j <= 96, and integrates over 0 <= t <= 6. The proof depends on `propext`, `Classical.choice`, `Quot.sound` and 5,536
   auxiliary axioms of `native_decide`, one for each compiled check that it uses, as `axioms_N.txt` shows: 5,520 for
-  ranges of initial boxes, 6 for checks of the tables of `g` and 10 for checks of the window-two bound. Evaluating the
+  ranges of initial boxes (62, 1,142 and 4,316 for k = 3, 4 and 5), 6 for checks of the tables of `g` and 10 for checks of the window-two bound. Evaluating the
   5,520 ranges took about three hours on up to 60 machines with 96 threads each. `BUILD.md` describes the build.
 - `lean/kernel/`: `BHH.betaBoundK3 : BetaBoundK3` and `BHH.bhhBetaBoundK3 : BHHBetaBoundK3`, proved in `BHH/MainK3.lean`
   and stated in `BHH/StatementK3.lean`: the same with `beta >= 0.6440396`, from the bounds `C_3 >= 0.0117130195`,
@@ -306,8 +312,23 @@ Mathlib commit c55e6e786f49 (`lean-toolchain`, `lake-manifest.json`).
   and `c5_all.txt`, and `KSub2_SHA256SUMS` and `KSub3_SHA256SUMS` list their hashes. The cut data are the files
   `k3_all.txt.xz`, `k4_all.txt.xz` and `c5_all.txt.xz` of the Zenodo record, decompressed; `kc2/UNCOMPRESSED_SHA256` and
   `kc5/UNCOMPRESSED_SHA256` give the SHA-256 of the uncompressed files. The generated modules hold 3,033,594 theorems on
-  the pieces, each proved by `decide +kernel`. Building the generated modules of `C_3` and `C_4` took about 5,250 hours
+  the pieces, each proved by `decide +kernel`. For `C_5`, the integer values of cos and sin at the 1,793 points of the
+  angular grid are written into the files as a table, which theorems proved by `decide +kernel` check entry by entry
+  against their computation. The initial boxes cut into pieces number 21,879: 2,528 of the 4,096 for
+  k = 3, 64 of the 512 for k = 4 and 19,287 of the 4,194,304 for k = 5. Building the generated modules of `C_3` and `C_4` took about 5,250 hours
   of single-threaded time in total, and those of `C_5` about 9,570 hours.
+
+Further checks of the proofs. For both native proofs, Lean's kernel replayed every module, and `leanchecker`, the
+kernel checker of the Lean toolchain, and two further implementations of the Lean kernel, nanoda and lean4lean,
+accepted the exported proofs, with the auxiliary axioms admitted: for `lean/native/`, those of `betaBoundV2_N` and
+`bhhBetaBoundV2_N`; for `lean/native_v3/`, those of `mainBoundsV3_N`, `betaBoundV3_N_of`, `bhhBetaBoundV3_N_of` and the
+three theorems of the window-3 part, and `leanchecker` also that of the final assembly. On machines other than those
+of the build, the compiled checks of the tables of `g`, 2% of the ranges and the window checks (for `lean/native_v3/`,
+the four window-3 checks) were evaluated a second time. The kernel-only proof was rebuilt in full on other machines
+from files generated again from the cut data, so that Lean's kernel checked every module again, and a replay checked
+the modules of the assembly once more. For it, `leanchecker`, nanoda and lean4lean accepted the general lemmas, the
+check of the table of `g` for k = 5 and three complete initial boxes, and nanoda and lean4lean random samples of 48
+modules of pieces for `C_3` and `C_4` and for `C_5`.
 
 The three hypotheses are defined in `BHH/Defs.lean` and `BHH/DefsV2.lean`. `GreenFormula` is Green's formula (3.1) of
 the paper for distinct points. `VertexLemmaSeg` is Lemma 3.1 with Remark 3.2 and the gradient formula (3.2), along the
@@ -332,6 +353,14 @@ theorem was the native bound 0.6491725104. `lean/README.md` explains the lemma a
   contain the window-3 bound on the grid (20,10,48) and the bound `beta >= 0.6496497227`.
 - doi:10.5281/zenodo.23562256: the Lean proofs of this version, except that the kernel-only proof gives
   `beta >= 0.6426496` from bounds for `C_3` and `C_4` only.
+- doi:10.5281/zenodo.23602654: the programs, logs and Lean proofs of this version, without the paper source in
+  `paper/`; the paper had a longer abstract and introduction. Its title, "A lower bound of 0.6508 for the Beardwood-Halton-Hammersley constant",
+  its abstract and its description stated the bound 0.6508 without the assumption on the exponential function, which
+  that version stated only in Section 5.4. This version states the assumption in the abstract and in Theorem 1.1,
+  together with the bound 0.6496497227 that does not use it, and its title names no number; the heading of
+  `lean/README.md`, which repeated the old title, names the new one (only that line of `lean/` and its line in
+  `lean/SHA256SUMS` changed). Appendix A of the paper now summarizes the tests of the programs; Section 5 of
+  `independent/README.md` gives them in full.
 
 ## License
 
